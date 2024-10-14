@@ -9,9 +9,13 @@ export type Post = {
 
 export const getPosts = async () => {
   const posts = postsData.posts.map((post): Post => {
-    const views = 0; // Set a default value or implement a different view counting mechanism
     return {
       ...post,
+      date: new Date(post.date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
     };
   });
   return posts;

@@ -29,7 +29,7 @@ export function Posts({ posts: initialPosts }) {
         <header className="text-gray-500 dark:text-gray-600 flex items-center text-xs">
           <button
             onClick={sortDate}
-            className={`w-12 h-9 text-left  ${
+            className={`w-32 h-9 text-left ${
               sort[1] !== "desc"
                 ? "text-gray-700 dark:text-gray-400"
                 : ""
@@ -38,7 +38,7 @@ export function Posts({ posts: initialPosts }) {
             date
             {sort[1] === "asc" && "↑"}
           </button>
-          <span className="grow pl-2">title</span>
+          <span className="grow">title</span>
         </header>
 
         <List posts={posts} sort={sort} />
@@ -59,33 +59,22 @@ function List({ posts, sort }) {
 
   return (
     <ul>
-      {sortedPosts.map((post, i: number) => {
-        const year = getYear(post.date);
-        const firstOfYear =
-          !sortedPosts[i - 1] || getYear(sortedPosts[i - 1].date) !== year;
-        const lastOfYear =
-          !sortedPosts[i + 1] || getYear(sortedPosts[i + 1].date) !== year;
+      {sortedPosts.map((post) => {
+        const date = new Date(post.date);
+        const formattedDate = date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
 
         return (
           <li key={post.id}>
-            <Link href={`/${new Date(post.date).getFullYear()}/${post.id}`}>
-              <span
-                className={`flex transition-[background-color] hover:bg-gray-100 dark:hover:bg-[#242424] active:bg-gray-200 dark:active:bg-[#222] border-y border-gray-200 dark:border-[#313131]
-                ${!firstOfYear ? "border-t-0" : ""}
-                ${lastOfYear ? "border-b-0" : ""}
-              `}
-              >
-                <span
-                  className={`py-3 flex grow items-center ${
-                    !firstOfYear ? "ml-14" : ""
-                  }`}
-                >
-                  {firstOfYear && (
-                    <span className="w-14 inline-block self-start shrink-0 text-gray-500 dark:text-gray-500">
-                      {year}
-                    </span>
-                  )}
-
+            <Link href={`/${date.getFullYear()}/${post.id}`}>
+              <span className="flex transition-[background-color] hover:bg-gray-100 dark:hover:bg-[#242424] active:bg-gray-200 dark:active:bg-[#222] border-y border-gray-200 dark:border-[#313131]">
+                <span className="py-3 flex items-center">
+                  <span className="w-32 inline-block shrink-0 text-gray-500 dark:text-gray-500">
+                    {formattedDate}
+                  </span>
                   <span className="grow dark:text-gray-100">{post.title}</span>
                 </span>
               </span>

@@ -16,7 +16,11 @@ export function Header({ posts }: { posts: Post[] }) {
     <div className="mb-10">
       <h1 className="font-bold text-2xl mb-1">{post.title}</h1>
       <div className="text-gray-500 text-sm">
-        {ago(new Date(post.date))}
+        {new Date(post.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })} ({ago(new Date(post.date))})
       </div>
     </div>
   );
