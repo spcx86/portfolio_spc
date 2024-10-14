@@ -8,7 +8,7 @@ export async function GET() {
   <feed xmlns="http://www.w3.org/2005/Atom">
     <title>Guillermo Rauch</title>
     <subtitle>Essays</subtitle>
-    <link href="https://rauchg.com/atom" rel="self"/>
+    <link href="https://rauchg.com/blog/atom" rel="self"/>
     <link href="https://rauchg.com/"/>
     <updated>${posts[0].date}</updated>
     <id>https://rauchg.com/</id>

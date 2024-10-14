@@ -10,15 +10,15 @@ import { doge } from "./doge";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Guillermo Rauch's blog",
+  title: "Guillermo Rauch",
   description:
     "Guillermo Rauch is the CEO and founder of Vercel, a software engineer, and the creator of Next.js, Mongoose, Socket.io and other open source libraries.",
   openGraph: {
-    title: "Guillermo Rauchg's blog",
+    title: "Guillermo Rauch",
     description:
       "Guillermo Rauch is the CEO and founder of Vercel, a software engineer, and the creator of Next.js, Mongoose, Socket.io and other open source libraries.",
     url: "https://rauchg.com",
-    siteName: "Guillermo Rauchg's blog",
+    siteName: "Guillermo Rauch",
   },
   twitter: {
     card: "summary_large_image",
