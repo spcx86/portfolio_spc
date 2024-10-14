@@ -5,8 +5,6 @@ export type Post = {
   id: string;
   date: string;
   title: string;
-  views: number;
-  viewsFormatted: string;
 };
 
 export const getPosts = async () => {
@@ -14,8 +12,6 @@ export const getPosts = async () => {
     const views = 0; // Set a default value or implement a different view counting mechanism
     return {
       ...post,
-      views,
-      viewsFormatted: commaNumber(views),
     };
   });
   return posts;
