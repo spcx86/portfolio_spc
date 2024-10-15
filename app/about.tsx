@@ -9,7 +9,7 @@ export function About() {
         <a href="https://twitter.com/rauchg" target="_blank" className="mb-4 sm:mb-0 sm:mr-6">
           <Image
             src="/images/rauchg-3d4cecf.jpg"
-            alt="Guillermo Rauch"
+            alt="Subhaprada Chand"
             className="rounded-full bg-gray-100 block mx-auto sm:mx-0 grayscale hover:grayscale-0"
             unoptimized
             width={160}
