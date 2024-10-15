@@ -28,3 +28,44 @@
     }
   }
 }
+
+/* Selection effect */
+::selection {
+  background-color: #89CFF0;
+  color: #000;
+}
+
+/* Click effect */
+.click-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.click-effect::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(137, 207, 240, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(200, 200);
+    opacity: 0;
+  }
+}
+
+.click-effect:active::after {
+  animation: ripple 0.4s ease-out;
+}
