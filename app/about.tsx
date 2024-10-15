@@ -6,7 +6,7 @@ export function About() {
       <h1 className="text-4xl font-bold mb-6 text-center dark:text-white">Hello, I'm Subha</h1>
 
       <div className="flex flex-col sm:flex-row items-center mb-8">
-        <a href="https://twitter.com/rauchg" target="_blank" className="mb-4 sm:mb-0 sm:mr-6">
+        <a href="https://x.com/shooooobh" target="_blank" className="mb-4 sm:mb-0 sm:mr-6">
           <Image
             src="/images/rauchg-3d4cecf.jpg"
             alt="Subhaprada Chand"
