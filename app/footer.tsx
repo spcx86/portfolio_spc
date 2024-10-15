@@ -6,13 +6,13 @@ export function Footer() {
       <div className="grow text-left">
         Subhaprada Chand (
         <A target="_blank" href="https://twitter.com/shooooobh">
-          @rauchg
+          @shooooobh
         </A>
         )
       </div>
       <div>
         <A target="_blank" href="https://github.com/spcx86/blog">
-          Source
+          Forked from Guillermo Rauch
         </A>
       </div>
     </footer>
