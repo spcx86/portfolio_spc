@@ -2,23 +2,27 @@ import Image from "next/image";
 
 export function About() {
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-6 text-center dark:text-white">Hello, I'm Subha</h1>
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-4xl font-bold mb-8 text-left dark:text-white">Hello, I'm Subha</h1>
 
-      <div className="flex flex-col sm:flex-row items-center mb-8">
-        <a href="https://x.com/shooooobh" target="_blank" className="mb-4 sm:mb-0 sm:mr-6">
-          <Image
-            src="/images/rauchg-3d4cecf.jpg"
-            alt="Subhaprada Chand"
-            className="rounded-full bg-gray-100 block mx-auto sm:mx-0 grayscale hover:grayscale-0"
-            unoptimized
-            width={160}
-            height={160}
-            priority
-          />
-        </a>
-        <div>
-          <p className="text-lg text-gray-700 dark:text-gray-300">I build things on the internet, mostly with code.</p>
+      <div className="flex flex-col-reverse md:flex-row items-center mb-12">
+        <div className="text-center md:text-left flex-1 mt-6 md:mt-0 md:mr-8">
+          <p className="text-xl text-gray-700 dark:text-gray-300 mb-4">I build things on the internet, mostly with code.</p>
+          
+        </div>
+        <div className="mb-6 md:mb-0">
+          <div className="rounded-full overflow-hidden border-4 border-gray-300 dark:border-gray-700 w-48 h-48 mx-auto md:mx-0">
+            <a href="https://x.com/shooooobh" target="_blank" rel="noopener noreferrer">
+              <Image
+                src="/images/spc_pic.png"
+                alt="Subhaprada Chand"
+                className="grayscale hover:grayscale-0 transition-all duration-300"
+                width={192}
+                height={192}
+                priority
+              />
+            </a>
+          </div>
         </div>
       </div>
 
