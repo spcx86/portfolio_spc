@@ -8,7 +8,7 @@ import { UL as ul } from "app/(post)/components/ul";
 import { LI as li } from "app/(post)/components/li";
 import { HR as hr } from "app/(post)/components/hr";
 import { Code as code } from "app/(post)/components/code";
-// import { Tweet } from "app/(post)/components/tweet";
+import { Tweet } from "app/(post)/components/tweet";
 import { Image } from "app/(post)/components/image";
 import { Figure } from "app/(post)/components/figure";
 import { Snippet } from "app/(post)/components/snippet";
@@ -18,9 +18,7 @@ import { YouTube } from "app/(post)/components/youtube";
 import { Ref, FootNotes, FootNote } from "app/(post)/components/footnotes";
 import { Blockquote as blockquote } from "app/(post)/components/blockquote";
 
-export function useMDXComponents(components: {
-  [component: string]: React.ComponentType;
-}) {
+export function useMDXComponents(components: any) {
   return {
     ...components,
     a,
@@ -45,5 +43,6 @@ export function useMDXComponents(components: {
     Ref,
     FootNotes,
     FootNote,
+    Tweet,
   };
 }
