@@ -8,37 +8,39 @@ export const metadata = {
   }
 }
 
-# Tubetrotter: My Accidental Deep Dive into Travel Vlog Mapping
+# Tubetrotter: An Unexpected Journey in Travel Vlog Mapping
 
-Look, I never planned to map out the entire world of travel vlogs. But here I am, knee-deep in YouTube APIs and geographical coordinates, all because I couldn't sleep one night and decided to watch some British panel shows. Funny how these things happen, right?
+I never set out to map the world of travel vlogs. But sometimes, the most unexpected ideas take on a life of their own.
 
-Before I dive into this saga, let me set the stage: Tubetrotter isn't just another project—it's my first solo venture that's actually made it out into the wild. Sure, I've worked on public projects before, but always as part of a team, safely tucked away in the machinery of a company. This time, it's all me. No safety net, no team to bounce ideas off, just my sleep-deprived brain and a weird idea that wouldn't let go. And somehow, miraculously, it didn't crash and burn on takeoff. So buckle up, because this is the story of how my late-night coding session turned into a full-fledged web app that people actually use.
+Tubetrotter is my first solo project to make it to the public internet. After years of working on team projects at various companies, I decided to tackle something entirely on my own. What started as a late-night idea inspired by a British panel show has somehow turned into a web app that people actually use.
 
-## The Accidental Beginning
+This is the story of how a random burst of inspiration led to an unexpectedly semi-successful side project. It's been quite a journey.
+
+## The Spark of an Idea
 
 It was just another night of me procrastinating sleep by watching "Would I Lie to You?" when Lee Mack pulled out this ridiculous map of petrol stations he'd supposedly visited. It was obviously a lie, but it got me thinking - what if I had a map of all the places I've been?
 
 Reality check: my travel history was about as exciting as watching paint dry. But you know who does travel? YouTube vloggers. And just like that, at 2 AM, fueled by insomnia and an idea that wouldn't let go, Tubetrotter was born.
 
-## The "I Can't Believe This Worked" Prototype
+## The Quick Prototype
 
 Two hours later, I had a Google Map with five random videos pinned to it. It wasn't pretty, but it existed, which was more than I could say for most of my 2 AM ideas. This quick win was probably the only reason I didn't abandon the project immediately. Past me, thanks for that.
 
-## The "What Was I Thinking?" Phase
+## The Manual Grind
 
 Excited by my prototype, I decided to map out videos from two of my favorite travel vloggers: Bald and Bankrupt, and Harald Baldr. Sounds simple, right? Well, past me thought so too.
 
 I created a browser extension to add videos to my database. The process? Watch a video, figure out where it was filmed, manually input the data. Repeat. After about 300 videos, I was questioning all my life choices that led to this moment.
 
-## The "There's Got to Be a Better Way" Revelation
+## Finding a Better Way
 
 Turns out, there was. The YouTube Data API became my new best friend, along with GPT-4 mini API for extracting location data from video titles and descriptions. Was it perfect? No. Was it better than slowly losing my mind doing everything manually? Absolutely.
 
-## The "People Actually Like This?" Moment
+## The First Public Reception
 
 When I finally worked up the courage to share Tubetrotter on some subreddits, the response was... well, people didn't hate it. But the real surprise came when I posted on r/InternetIsBeautiful. Suddenly, people were not just liking it, but suggesting new channels to add. It was like watching my weird little project grow legs and start running.
 
-## The "Oh No, It's Actually Working" Panic
+## Facing Performance Issues
 
 As Tubetrotter grew to house 5-6 thousand videos across 15-20 channels, the site's performance took a nosedive. Users were selecting all available channels (because of course they were), and loading times skyrocketed. My poor server was sweating bullets trying to keep up with the data requests, and I realized my data fetching was about as optimized as a sloth running a marathon.
 
@@ -48,27 +50,33 @@ You see, I'd already indexed my MongoDB collections properly (pat on the back fo
 
 The actual solution came from an unexpected direction - the frontend. Browser-side caching with IndexedDB turned out to be the game-changer. It was one of those moments where you feel simultaneously clever for figuring it out and a bit dense for not considering it sooner. Frontend solutions solving backend problems? Younger me would've been shocked.
 
-## The "People Are Weird" Realization
+## Learning from User Behavior
 
 Thanks to PostHog analytics, I got to watch how people actually used the site. Turns out, everyone loves to zoom in and out and click randomly, probably wondering if anything was happening. A simple loading indicator made a world of difference. Who knew?
 
-## The "Aha!" Moment
+## Uncovering User Needs
 
 Here's where it gets interesting. I noticed users were selecting all channels, and I couldn't figure out why. Then it hit me - they were trying to find videos from their home countries. It wasn't about specific vloggers; people just wanted to see familiar places.
 
 Implementing this feature involved a crash course in reverse geocoding and some serious head-scratching about UI design. The result? Two search options: by Channel and by Country. It felt good to solve a real problem, even if it meant admitting I didn't understand my users as well as I thought I did.
 
-## What I've Learned (Besides Too Much About YouTube APIs)
+## Lessons Learned
 
-1. Sometimes, insomnia leads to good ideas. Not often, but sometimes.
-2. Start building before you talk yourself out of it.
-3. If you're doing something manually more than 10 times, automate it. Your future self will thank you.
-4. User feedback is gold, even when it makes you question your entire approach.
-5. Performance optimization is never done. It's just waiting to surprise you later.
-6. Users will always find a way to use your app that you never intended. Roll with it.
-7. Full-stack development is just solving puzzles all day, every day.
+1 - Don't be afraid to start with manual processes. I began by mapping videos by hand. It was tedious, but it validated the concept before I invested time in automation.
 
-## What's Next?
+2 - Build things that don't scale - then scale them. My browser extension for manual data entry wasn't sustainable, but it got the job done until I could implement the YouTube Data API and GPT-4 mini.
+
+3 - Listen to your users, even when it's not what you expect. I thought people wanted to follow specific vloggers, but they were actually looking for videos from their home countries. This insight shaped the entire direction of Tubetrotter.
+
+4 - Performance optimization isn't a one-time task; it's an ongoing journey. What works for 100 videos might crawl with 5000. I learned this the hard way when my Redis solution barely made a dent.
+
+5 - Sometimes, the solution comes from an unexpected place. As a backend developer, I was skeptical about frontend caching. But IndexedDB turned out to be the game-changer Tubetrotter needed.
+
+6 - The way users interact with your app is the right way - build towards that. I had to let go of my preconceptions and focus on what users actually wanted, not what I thought they should want.
+
+7 - Small UX improvements can make a big difference. Adding a simple loading indicator significantly improved user satisfaction. Never underestimate the power of clear feedback.
+
+## Looking Ahead
 
 Honestly, I'm not entirely sure. Tubetrotter has grown from a late-night idea into something people actually use, which is both exciting and terrifying. There's still so much I want to do with it, but for now, I'm just enjoying the ride.
 

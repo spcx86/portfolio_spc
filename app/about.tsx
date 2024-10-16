@@ -7,8 +7,11 @@ export function About() {
 
       <div className="flex flex-col-reverse md:flex-row items-center mb-12">
         <div className="text-center md:text-left flex-1 mt-6 md:mt-0 md:mr-8">
-          <p className="text-xl text-gray-700 dark:text-gray-300 mb-4">I build things on the internet, mostly with code.</p>
-          
+                      <p className="text-xl text-gray-700 dark:text-gray-300 mb-4">I build things on the internet, mostly with code.</p>
+
+          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+            Software Engineer with 5+ years of experience, seeking a founding engineer role in an early-stage startup.
+          </p>
         </div>
         <div className="mb-6 md:mb-0">
           <div className="rounded-full overflow-hidden border-4 border-gray-300 dark:border-gray-700 w-48 h-48 mx-auto md:mx-0">
@@ -27,63 +30,67 @@ export function About() {
       </div>
 
       <section className="mb-8">
-        <h3 className="text-2xl font-semibold mb-4 dark:text-white">Current Endeavors</h3>
-        <p className="text-lg text-gray-700 mb-4 dark:text-gray-300">
-          By day, I'm a software engineer on the lookout for my next challenge in the startup world. In my free time, I'm tinkering with TubeTrotter (www.tubetrotter.live), a side project that marries travel vlogs with interactive maps.
+        <h3 className="text-2xl font-semibold mb-4 dark:text-white">What I'm Looking For</h3>
+        <p className="text-lg text-gray-700 dark:text-gray-300">
+          I'm on the hunt for a position where I can:
         </p>
         <ul className="list-disc list-inside text-lg text-gray-700 space-y-2 dark:text-gray-300">
-          <li>A passion project built from the ground up</li>
-          <li>Where I get to play product manager, UX designer, and full-stack developer all at once</li>
-          <li>Powered by JavaScript, React, and Google Maps API</li>
-          <li>Visited by over 10,000 curious souls (and counting)</li>
+          <li>Be a key player in an early-stage startup</li>
+          <li>Wear multiple hats and contribute across the stack</li>
+          <li>Tackle challenging problems that directly impact business growth</li>
+          <li>Continue learning and growing in a fast-paced environment</li>
         </ul>
       </section>
 
       <section className="mb-8">
-        <h3 className="text-2xl font-semibold mb-4 dark:text-white">Past Adventures</h3>
+        <h3 className="text-2xl font-semibold mb-4 dark:text-white">Professional Experience</h3>
+        <p className="text-lg text-gray-700 mb-4 dark:text-gray-300">
+          With 5+ years in the industry, I've honed my skills at:
+        </p>
         <ul className="list-disc list-inside text-lg text-gray-700 space-y-2 dark:text-gray-300">
-          <li>Sharechat: Where I made payments smoother and fraud a bit harder</li>
-          <li>Rippling: Where I helped data find its way home</li>
-          <li>Razorpay: Where I kept the digital cash flowing</li>
+          <li><strong>Sharechat</strong> (2023-2024): Optimized payment systems and implemented fraud prevention, directly impacting revenue.</li>
+          <li><strong>Rippling</strong> (2021-2023): Led development of data import tools, improving client onboarding efficiency.</li>
+          <li><strong>Razorpay</strong> (2019-2021): Built and maintained critical payment testing infrastructure.</li>
         </ul>
       </section>
 
       <section className="mb-8">
         <h3 className="text-2xl font-semibold mb-4 dark:text-white">Tools in My Belt</h3>
         <p className="text-lg text-gray-700 dark:text-gray-300">
-          I speak fluent Go, Python, Java, React, and Next.js. And yes, I can center a div.
-        </p>
-        <p className="text-lg text-gray-700 dark:text-gray-300">
-          But here's the thing: I'm a fast learner, and with the rise of AI and generative AI, picking up new tech stacks is easier than ever. Case in point: I built TubeTrotter using Node.js, a technology I had zero experience with before starting the project. So don't worry if your tech stack doesn't match my list perfectly – I'm always ready to adapt and learn.
+          Proficient in Go, Python, Java, React, and Next.js. But here's the kicker: I'm a fast learner. With today's AI tools, I can quickly adapt to any tech stack. Case in point: I built my side project, TubeTrotter, using Node.js—a technology I learned from scratch for the project.
         </p>
       </section>
 
       <section className="mb-8">
-        <h3 className="text-2xl font-semibold mb-4 dark:text-white">What I'm After</h3>
-        <p className="text-lg text-gray-700 dark:text-gray-300">
-          I'm seeking a role where I can:
+        <h3 className="text-2xl font-semibold mb-4 dark:text-white">Current Side Project</h3>
+        <p className="text-lg text-gray-700 mb-4 dark:text-gray-300">
+          <span>
+          <strong>TubeTrotter </strong>
+            <a href="https://www.tubetrotter.live" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline dark:text-blue-400">
+             (www.tubetrotter.live)
+            </a> 
+          </span>
         </p>
         <ul className="list-disc list-inside text-lg text-gray-700 space-y-2 dark:text-gray-300">
-          <li>Wear multiple hats (figuratively, of course)</li>
-          <li>Tackle challenges that make a real difference</li>
-          <li>Learn something new every day</li>
+          <li>An interactive map showcasing YouTube travel vlogs</li>
+          <li>Built from the ground up in my spare time</li>
+          <li>Juggling roles: product manager, UX designer, and full-stack developer</li>
+          <li>Tech stack: JavaScript, React, Google Maps API</li>
+          <li>Attracted over 10,000 visitors since launch</li>
         </ul>
-        <p className="text-lg text-gray-700 dark:text-gray-300">
-          Preferably at a startup where the coffee is strong and the problems are interesting.
-        </p>
       </section>
 
       <section className="mb-8">
         <h3 className="text-2xl font-semibold mb-4 dark:text-white">Let's Connect</h3>
         <p className="text-lg text-gray-700 dark:text-gray-300">
-          If you want to chat about code, startups, or why anyone would map YouTube videos for fun, drop me a line at <a href="mailto:subhapradachand@gmail.com" className="text-blue-500 hover:underline dark:text-blue-400">subhapradachand@gmail.com</a>.
+          If you're building something exciting and need a versatile engineer who can hit the ground running, let's chat. Reach me at <a href="mailto:subhapradachand@gmail.com" className="text-blue-500 hover:underline dark:text-blue-400">subhapradachand@gmail.com</a>.
         </p>
       </section>
 
       <hr className="my-8" />
 
       <p className="text-center text-lg text-gray-700 dark:text-gray-300">
-        Thanks for stopping by. May your code be bug-free and your builds always green.
+        Thanks for stopping by. Here's to building the next big thing!
       </p>
     </div>
   );
