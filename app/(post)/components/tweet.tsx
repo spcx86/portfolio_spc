@@ -1,3 +1,3 @@
-export default function Tweet({ id }: { id: string }) {
+export default function Tweet() {
   return <div>Tweet</div>;
 }
