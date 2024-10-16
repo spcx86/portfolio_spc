@@ -34,7 +34,7 @@ export default async function AboutOG() {
   ).then(res => res.arrayBuffer());
 
   const posts = await getPosts();
-
+  
   return new ImageResponse(
     (
       <div
