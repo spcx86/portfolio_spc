@@ -1,7 +1,6 @@
 import { ThemeToggle } from "./theme-toggle";
 import { Logo } from "./logo";
 import Link from "next/link";
-import { NavLink } from "next/navigation";
 
 export function Header() {
   return (
@@ -53,9 +52,9 @@ function TweetIcon(props: any) {
 export function Links() {
   return (
     <>
-      <NavLink href="/blog">Blog</NavLink>
-      <NavLink href="https://github.com/rauchg">GitHub</NavLink>
-      <NavLink href="/atom">RSS</NavLink>
+      <Link href="/blog">Blog</Link>
+      <Link href="https://github.com/rauchg">GitHub</Link>
+      <Link href="/atom">RSS</Link>
     </>
   );
 }
