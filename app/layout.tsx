@@ -6,6 +6,7 @@ import { Analytics } from "./analytics";
 import { Header } from "./header";
 import { Footer } from "./footer";
 import { doge } from "./doge";
+import { TiledBackground } from './(post)/components/TiledBackground';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,13 +51,16 @@ export default function RootLayout({
         />
       </head>
 
-      <body className="dark:text-gray-100 max-w-2xl m-auto">
-        <main className="p-6 pt-3 md:pt-6 min-h-screen">
-          <Header />
-          {children}
-        </main>
-
-        <Footer />
+      <body className="dark:text-gray-100">
+        <TiledBackground>
+          <div className="max-w-2xl m-auto">
+            <main className="p-6 pt-3 md:pt-6 min-h-screen">
+              <Header />
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </TiledBackground>
         <Analytics />
       </body>
     </html>
