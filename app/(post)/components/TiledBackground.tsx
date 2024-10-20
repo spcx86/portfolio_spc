@@ -5,8 +5,11 @@ import React, { useState, useEffect, useRef } from 'react';
 const TILE_WIDTH = 400;
 const TILE_HEIGHT = 200;
 
+// Define the Tile type
+type Tile = { x: number; y: number };
+
 export function TiledBackground({ children }: { children: React.ReactNode }) {
-  const [tiles, setTiles] = useState<{ x: number; y: number }[]>([]);
+  const [tiles, setTiles] = useState<Tile[]>([]);
   const [hoveredTile, setHoveredTile] = useState<{ x: number; y: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -14,7 +17,7 @@ export function TiledBackground({ children }: { children: React.ReactNode }) {
     const updateTiles = () => {
       if (containerRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect();
-        const newTiles = [];
+        const newTiles: Tile[] = [];
         for (let x = 0; x < width; x += TILE_WIDTH) {
           for (let y = 0; y < height; y += TILE_HEIGHT) {
             newTiles.push({ x, y });
