@@ -25,6 +25,9 @@ export function TiledBackground({ children }: { children: React.ReactNode }) {
   const [showTiles, setShowTiles] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const highlightedTilesRef = useRef<HighlightedTile[]>([]);
+  const [visibleTiles, setVisibleTiles] = useState<Tile[]>([]);
+  const renderedTilesRef = useRef<Set<string>>(new Set());
+  const [tappedTile, setTappedTile] = useState<Tile | null>(null);
 
   useEffect(() => {
     highlightedTilesRef.current = highlightedTiles;
@@ -61,9 +64,59 @@ export function TiledBackground({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener('resize', updateTiles);
   }, [isMobile]);
 
+  const updateVisibleTiles = useCallback(() => {
+    if (containerRef.current) {
+      const { top, bottom, left, right } = containerRef.current.getBoundingClientRect();
+      const tileWidth = isMobile ? MOBILE_TILE_WIDTH : DESKTOP_TILE_WIDTH;
+      const tileHeight = isMobile ? MOBILE_TILE_HEIGHT : DESKTOP_TILE_HEIGHT;
+      
+      console.log('Viewport coordinates:', { top, bottom, left, right });
+
+      const startX = Math.floor(left / tileWidth) * tileWidth;
+      const startY = Math.floor(top / tileHeight) * tileHeight;
+      const endX = Math.ceil(right / tileWidth) * tileWidth;
+      const endY = Math.ceil(bottom / tileHeight) * tileHeight;
+
+      const newVisibleTiles: Tile[] = [];
+
+      for (let x = startX; x < endX; x += tileWidth) {
+        for (let y = startY; y < endY; y += tileHeight) {
+          const id = `${x}-${y}`;
+          if (!renderedTilesRef.current.has(id)) {
+            newVisibleTiles.push({ x, y, id });
+            renderedTilesRef.current.add(id);
+            console.log('New tile rendered:', { x, y, id });
+          }
+        }
+      }
+
+      setVisibleTiles(prev => [...prev, ...newVisibleTiles]);
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      console.log('Scroll event');
+      updateVisibleTiles();
+    };
+
+    const handleResize = () => {
+      console.log('Resize event');
+      updateVisibleTiles();
+    };
+
+    updateVisibleTiles();
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [updateVisibleTiles]);
+
   const selectRandomTile = useCallback(() => {
-    if (tiles.length > 0 && isMobile) {
-      const availableTiles = tiles.filter(tile => 
+    if (visibleTiles.length > 0 && isMobile) {
+      const availableTiles = visibleTiles.filter(tile => 
         !highlightedTilesRef.current.some(ht => ht.id === tile.id)
       );
       if (availableTiles.length > 0 && highlightedTilesRef.current.length < MAX_ACTIVE_TILES) {
@@ -79,7 +132,7 @@ export function TiledBackground({ children }: { children: React.ReactNode }) {
         }, duration + FADE_DURATION);
       }
     }
-  }, [tiles, isMobile]);
+  }, [visibleTiles, isMobile]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -108,6 +161,7 @@ export function TiledBackground({ children }: { children: React.ReactNode }) {
       const { left, top } = containerRef.current.getBoundingClientRect();
       const x = Math.floor((event.clientX - left) / DESKTOP_TILE_WIDTH) * DESKTOP_TILE_WIDTH;
       const y = Math.floor((event.clientY - top) / DESKTOP_TILE_HEIGHT) * DESKTOP_TILE_HEIGHT;
+      console.log('Mouse move:', { x, y });
       setHoveredTile({ x, y, id: `${x}-${y}` });
     }
   }, [isMobile]);
@@ -118,28 +172,51 @@ export function TiledBackground({ children }: { children: React.ReactNode }) {
     }
   }, [isMobile]);
 
+  const handleTouchStart = useCallback((event: React.TouchEvent<HTMLDivElement>) => {
+    if (isMobile && containerRef.current) {
+      const touch = event.touches[0];
+      const { left, top } = containerRef.current.getBoundingClientRect();
+      const x = Math.floor((touch.clientX - left) / MOBILE_TILE_WIDTH) * MOBILE_TILE_WIDTH;
+      const y = Math.floor((touch.clientY - top) / MOBILE_TILE_HEIGHT) * MOBILE_TILE_HEIGHT;
+      const newTappedTile = { x, y, id: `${x}-${y}` };
+      setTappedTile(newTappedTile);
+
+      // Highlight the tapped tile for a short duration
+      const duration = 1000; // 1 second
+      const endTime = Date.now() + duration;
+      setHighlightedTiles(prev => [...prev, { ...newTappedTile, endTime }]);
+      
+      setTimeout(() => {
+        setHighlightedTiles(prev => prev.filter(t => t.id !== newTappedTile.id));
+        setTappedTile(null);
+      }, duration);
+    }
+  }, [isMobile]);
+
   return (
     <div 
       ref={containerRef}
       className="relative overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
     >
       <div className="absolute inset-0 bg-white dark:bg-black opacity-80 backdrop-blur-md z-10"></div>
       <div className={`absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out ${showTiles ? 'opacity-100' : 'opacity-0'}`}>
-        {tiles.map((tile) => {
+        {visibleTiles.map((tile) => {
           const highlightedTile = highlightedTiles.find(ht => ht.id === tile.id);
           const isHighlighted = !!highlightedTile;
           const isHovered = !isMobile && hoveredTile && tile.x === hoveredTile.x && tile.y === hoveredTile.y;
+          const isTapped = isMobile && tappedTile && tile.x === tappedTile.x && tile.y === tappedTile.y;
           const opacity = isMobile
-            ? (isHighlighted ? Math.min(1, (highlightedTile.endTime - Date.now()) / FADE_DURATION) : 0.1)
+            ? (isHighlighted || isTapped ? Math.min(1, (highlightedTile?.endTime || Date.now() + 1000 - Date.now()) / FADE_DURATION) : 0.1)
             : (isHovered ? 0.9 : 0.1);
           
           return (
             <div
               key={tile.id}
               className={`absolute transition-all duration-[1500ms] ease-in-out rounded-lg ${
-                (isMobile && isHighlighted) || (!isMobile && isHovered)
+                (isMobile && (isHighlighted || isTapped)) || (!isMobile && isHovered)
                   ? 'bg-[#89CFF0] dark:bg-[#89CFF0]'
                   : 'bg-gray-200 dark:bg-gray-700'
               }`}
