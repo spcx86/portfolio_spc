@@ -17,6 +17,14 @@ export function Header() {
           Blog
         </Link>
         <a
+          href="/SubhapradaChandOct2024.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex hover:bg-gray-200 dark:hover:bg-[#313131] active:bg-gray-300 dark:active:bg-[#242424] rounded-sm p-2 transition-[background-color]"
+        >
+          Resume
+        </a>
+        <a
           href="https://x.com/shooooobh"
           target="_blank"
           className="inline-flex hover:bg-gray-200 dark:hover:bg-[#313131] active:bg-gray-300 dark:active:bg-[#242424] items-center p-2 rounded-sm transition-[background-color] whitespace-nowrap -mr-2"
