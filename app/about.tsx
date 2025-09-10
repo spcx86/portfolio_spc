@@ -48,7 +48,7 @@ export function About() {
           With 5+ years in the industry, I&apos;ve honed my skills at:
         </p>
         <ul className="list-disc list-inside text-lg text-gray-700 space-y-2 dark:text-gray-300">
-          <li><strong>Sharechat</strong> (2023-2024): Optimized payment systems and implemented fraud prevention, directly impacting revenue.</li>
+          <li><strong>Sharechat</strong> (2023-): Optimized payment systems and implemented fraud prevention, directly impacting revenue.</li>
           <li><strong>Rippling</strong> (2021-2023): Led development of data import tools, improving client onboarding efficiency.</li>
           <li><strong>Razorpay</strong> (2019-2021): Built and maintained critical payment testing infrastructure.</li>
         </ul>
