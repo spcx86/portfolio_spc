@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Technical</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent: #00ff88;
+            --accent-dim: rgba(0, 255, 136, 0.1);
+            --border: #222222;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 13px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .timestamp {
+            color: var(--text-muted);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 64px;
+        }
+
+        /* Section Header with Bracket */
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .section-number {
+            font-family: var(--mono);
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 16px;
+        }
+
+        /* Content Block */
+        .content-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 32px;
+            position: relative;
+        }
+
+        .content-block::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent);
+        }
+
+        /* Line Numbers */
+        .with-lines {
+            padding-left: 56px;
+            position: relative;
+        }
+
+        .line-numbers {
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: 32px 16px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            user-select: none;
+        }
+
+        /* Text Styles */
+        p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* Data Grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .data-item {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            padding: 20px;
+            transition: all 0.2s;
+        }
+
+        .data-item:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .data-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .data-value {
+            font-family: var(--mono);
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        /* Project Cards */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+        }
+
+        .project-header {
+            background: var(--bg-tertiary);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-id {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .project-status {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent);
+            padding: 4px 8px;
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+        }
+
+        .project-content {
+            padding: 24px 20px;
+        }
+
+        .project-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .project-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            font-family: var(--mono);
+            font-size: 13px;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* Command Line Style */
+        .command-line {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            padding: 24px;
+            font-family: var(--mono);
+            font-size: 14px;
+            margin: 32px 0;
+        }
+
+        .command-line .prompt {
+            color: var(--accent);
+        }
+
+        .command-line .output {
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 4px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            margin: 16px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 75%;
+        }
+
+        /* Button */
+        .btn {
+            font-family: var(--mono);
+            font-size: 13px;
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 32px 16px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .with-lines {
+                padding-left: 32px;
+            }
+
+            .line-numbers {
+                padding: 32px 8px;
+                font-size: 10px;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-nav {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>portfolio.active</span>
+        </div>
+        <div class="timestamp" id="timestamp">2024-01-15 14:23:47 UTC</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Header Section -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">[00]</span>
+                <h1 class="section-title">Your Name</h1>
+                <div class="section-line"></div>
+            </div>
+            <div class="content-block with-lines">
+                <div class="line-numbers">
+                    1<br>2<br>3<br>4
+                </div>
+                <p>Building products since 2019.</p>
+                <p>Currently working on my own app. Previously engineering at TechCo.</p>
+                <p>Focused on shipping fast, iterating constantly, and solving real problems.</p>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">[01]</span>
+                <h2 class="section-title">Metrics</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Experience</div>
+                    <div class="data-value">5Y</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Products</div>
+                    <div class="data-value">03</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Users</div>
+                    <div class="data-value">10K+</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Revenue</div>
+                    <div class="data-value">$500K</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">[02]</span>
+                <h2 class="section-title">Projects</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="tab-nav">
+                <button class="tab active">active</button>
+                <button class="tab">completed</button>
+                <button class="tab">archived</button>
+            </div>
+
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-id">project_001</span>
+                        <span class="project-status">LIVE</span>
+                    </div>
+                    <div class="project-content">
+                        <h3>Collaboration Platform</h3>
+                        <p>
+                            SaaS product for team collaboration. Currently in beta with
+                            500+ active users. Built with React, Next.js, PostgreSQL.
+                        </p>
+                        <div class="tags">
+                            <span class="tag">saas</span>
+                            <span class="tag">live</span>
+                            <span class="tag">growing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-id">project_002</span>
+                        <span class="project-status">EXIT</span>
+                    </div>
+                    <div class="project-content">
+                        <h3>Previous Startup</h3>
+                        <p>
+                            B2B platform scaled from 0 to $500K ARR. Acquired by
+                            TechCorp in 2024. Led engineering and product.
+                        </p>
+                        <div class="tags">
+                            <span class="tag">b2b</span>
+                            <span class="tag">acquired</span>
+                            <span class="tag">2024</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-id">project_003</span>
+                        <span class="project-status">ACTIVE</span>
+                    </div>
+                    <div class="project-content">
+                        <h3>Open Source Tools</h3>
+                        <p>
+                            Developer tools and frameworks used by 10,000+ developers.
+                            Active maintainer, community contributor.
+                        </p>
+                        <div class="tags">
+                            <span class="tag">oss</span>
+                            <span class="tag">10k+</span>
+                            <span class="tag">community</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">[03]</span>
+                <h2 class="section-title">Stack</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="command-line">
+                <div class="prompt">$ stack --list</div>
+                <div class="output">
+                    → React, Next.js, TypeScript<br>
+                    → PostgreSQL, Redis<br>
+                    → AWS, Vercel<br>
+                    → Git, GitHub Actions
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">[04]</span>
+                <h2 class="section-title">Connect</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="content-block">
+                <p>Working on something interesting? Let's talk.</p>
+                <div style="margin-top: 24px;">
+                    <a href="#" class="btn">GET IN TOUCH</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2024 / Built with focus</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const timestamp = now.toISOString().replace('T', ' ').split('.')[0] + ' UTC';
+            document.getElementById('timestamp').textContent = timestamp;
+        }
+        updateTimestamp();
+        setInterval(updateTimestamp, 1000);
+
+        // Tab switching (demo)
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
