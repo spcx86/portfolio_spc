@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubuntu OS Themes - Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ==================== THEME 1: UBUNTU STANDARD ==================== */
+        html[data-theme="ubuntu-standard"] {
+            --bg-base: #f0f0f0;
+            --bg-desktop: linear-gradient(135deg, #4e2a84 0%, #772953 100%);
+            --bg-window: #ffffff;
+            --bg-elevated: #fafafa;
+            --bg-sidebar: #2c2c2c;
+            --text-primary: #2c2c2c;
+            --text-secondary: #5c5c5c;
+            --text-muted: #8c8c8c;
+            --accent-primary: #E95420;
+            --accent-secondary: #772953;
+            --accent-hover: #d14315;
+            --border-color: #d4d4d4;
+            --titlebar-bg: #2c2c2c;
+            --titlebar-text: #ffffff;
+            --window-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ==================== THEME 2: UBUNTU DARK ==================== */
+        html[data-theme="ubuntu-dark"] {
+            --bg-base: #1e1e1e;
+            --bg-desktop: linear-gradient(135deg, #1e1e1e 0%, #2c2c2c 100%);
+            --bg-window: #2c2c2c;
+            --bg-elevated: #3c3c3c;
+            --bg-sidebar: #1a1a1a;
+            --text-primary: #f0f0f0;
+            --text-secondary: #c0c0c0;
+            --text-muted: #8c8c8c;
+            --accent-primary: #E95420;
+            --accent-secondary: #ff6a3d;
+            --accent-hover: #ff7850;
+            --border-color: #404040;
+            --titlebar-bg: #1a1a1a;
+            --titlebar-text: #f0f0f0;
+            --window-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ==================== THEME 3: UBUNTU TERMINAL ==================== */
+        html[data-theme="ubuntu-terminal"] {
+            --bg-base: #300a24;
+            --bg-desktop: #300a24;
+            --bg-window: #300a24;
+            --bg-elevated: #3f0e33;
+            --bg-sidebar: #1a0614;
+            --text-primary: #ffffff;
+            --text-secondary: #d0d0d0;
+            --text-muted: #a0a0a0;
+            --accent-primary: #E95420;
+            --accent-secondary: #00ff00;
+            --accent-hover: #ff6a3d;
+            --border-color: #5c1e4a;
+            --titlebar-bg: #2c001e;
+            --titlebar-text: #ffffff;
+            --window-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            min-height: 100vh;
+            background: var(--bg-desktop);
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        html[data-theme="ubuntu-terminal"] body {
+            font-family: 'Ubuntu Mono', 'Courier New', monospace;
+        }
+
+        /* Desktop Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        /* Main Container - Window Style */
+        .window-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-window);
+            border-radius: 10px;
+            box-shadow: var(--window-shadow);
+            overflow: hidden;
+        }
+
+        /* Window Title Bar */
+        .window-titlebar {
+            background: var(--titlebar-bg);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .window-btn.close {
+            background: #fc5753;
+        }
+
+        .window-btn.minimize {
+            background: #fdbc40;
+        }
+
+        .window-btn.maximize {
+            background: #34c749;
+        }
+
+        .window-btn:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .window-title {
+            color: var(--titlebar-text);
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
+        }
+
+        .window-menu {
+            width: 60px; /* Balance the controls */
+        }
+
+        /* Theme Selector - OS Style */
+        .theme-selector {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--bg-window);
+            border-radius: 8px;
+            box-shadow: var(--window-shadow);
+            overflow: hidden;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-selector-header {
+            background: var(--titlebar-bg);
+            color: var(--titlebar-text);
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-selector-header::before {
+            content: '⚙️';
+            font-size: 14px;
+        }
+
+        .theme-buttons {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .theme-btn {
+            padding: 10px 16px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            text-align: left;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .theme-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .theme-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        /* Sidebar/Dock */
+        .sidebar-dock {
+            background: var(--bg-sidebar);
+            width: 70px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            bottom: 20px;
+            border-radius: 10px;
+            box-shadow: var(--window-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 16px;
+            z-index: 999;
+        }
+
+        .dock-item {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .dock-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(233, 84, 32, 0.4);
+        }
+
+        .dock-item.active::after {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
+
+        /* Content Area */
+        .window-content {
+            margin-left: 110px;
+            padding: 40px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .narrow {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            padding: 40px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo::before {
+            content: '🐧';
+            font-size: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+            background: var(--bg-elevated);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 100px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        html[data-theme="ubuntu-terminal"] .hero h1 {
+            font-family: 'Ubuntu Mono', monospace;
+            text-shadow: 0 0 20px rgba(233, 84, 32, 0.5);
+        }
+
+        .hero .tagline {
+            font-size: 24px;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        html[data-theme="ubuntu-terminal"] .hero .tagline::before {
+            content: '$ ';
+            color: var(--accent-secondary);
+        }
+
+        .hero .description {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.7;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons - Ubuntu Style */
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 8px rgba(233, 84, 32, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 4px 12px rgba(233, 84, 32, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: var(--bg-elevated);
+        }
+
+        /* Stats Section - Panel Style */
+        .stats {
+            padding: 60px 0;
+            margin: 60px 0;
+        }
+
+        .stats-panel {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 48px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        html[data-theme="ubuntu-dark"] .stats-panel,
+        html[data-theme="ubuntu-terminal"] .stats-panel {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 52px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-item p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 60px 0;
+        }
+
+        .content-section h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            padding-bottom: 16px;
+            border-bottom: 3px solid var(--accent-primary);
+            display: inline-block;
+        }
+
+        html[data-theme="ubuntu-terminal"] .content-section h2::before {
+            content: '# ';
+            color: var(--accent-secondary);
+        }
+
+        .content-section p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Project Cards - Window Style */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .project-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        html[data-theme="ubuntu-dark"] .project-card:hover,
+        html[data-theme="ubuntu-terminal"] .project-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card-header {
+            background: var(--titlebar-bg);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-card-header .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .project-card-header .dot.red { background: #fc5753; }
+        .project-card-header .dot.yellow { background: #fdbc40; }
+        .project-card-header .dot.green { background: #34c749; }
+
+        .project-card-body {
+            padding: 32px;
+        }
+
+        .project-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .project-card p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        html[data-theme="ubuntu-terminal"] .project-tag {
+            font-family: 'Ubuntu Mono', monospace;
+            background: transparent;
+            border: 1px solid var(--accent-secondary);
+            color: var(--accent-secondary);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 40px;
+            text-align: center;
+            margin-top: 80px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer p {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Terminal Specific Styling */
+        html[data-theme="ubuntu-terminal"] .hero h1,
+        html[data-theme="ubuntu-terminal"] .content-section h2,
+        html[data-theme="ubuntu-terminal"] .project-card h3 {
+            font-family: 'Ubuntu Mono', monospace;
+        }
+
+        html[data-theme="ubuntu-terminal"] .project-card-body::before {
+            content: '$ cat project.txt';
+            display: block;
+            color: var(--accent-secondary);
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            margin-bottom: 16px;
+            opacity: 0.7;
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-window);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            box-shadow: var(--window-shadow);
+            max-width: 300px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .notification-badge.show {
+            display: block;
+        }
+
+        .notification-badge h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .notification-badge p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar-dock {
+                display: none;
+            }
+
+            .window-content {
+                margin-left: 0;
+                padding: 24px;
+            }
+
+            .theme-selector {
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero .tagline {
+                font-size: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .window-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="ubuntu-standard">
+
+    <!-- Sidebar Dock -->
+    <div class="sidebar-dock">
+        <div class="dock-item active">🏠</div>
+        <div class="dock-item">💼</div>
+        <div class="dock-item">✍️</div>
+        <div class="dock-item">📧</div>
+        <div style="flex: 1;"></div>
+        <div class="dock-item">⚙️</div>
+    </div>
+
+    <!-- Theme Selector -->
+    <div class="theme-selector">
+        <div class="theme-selector-header">Themes</div>
+        <div class="theme-buttons">
+            <button class="theme-btn active" data-theme="ubuntu-standard">Ubuntu Standard</button>
+            <button class="theme-btn" data-theme="ubuntu-dark">Ubuntu Dark</button>
+            <button class="theme-btn" data-theme="ubuntu-terminal">Ubuntu Terminal</button>
+        </div>
+    </div>
+
+    <!-- Main Window Container -->
+    <div class="window-container">
+        <!-- Window Title Bar -->
+        <div class="window-titlebar">
+            <div class="window-controls">
+                <button class="window-btn close"></button>
+                <button class="window-btn minimize"></button>
+                <button class="window-btn maximize"></button>
+            </div>
+            <div class="window-title">Portfolio - YourName</div>
+            <div class="window-menu"></div>
+        </div>
+
+        <!-- Window Content -->
+        <div class="window-content">
+            <!-- Header -->
+            <header>
+                <div class="container">
+                    <nav>
+                        <a href="#" class="logo">YourName</a>
+                        <ul class="nav-links">
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#work">Work</a></li>
+                            <li><a href="#writing">Writing</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container narrow">
+                    <h1>Building Products<br>That Matter</h1>
+                    <p class="tagline">Founder & Product Builder</p>
+                    <p class="description">
+                        I create technology that solves real problems. Currently building
+                        my own app and helping founders bring their visions to life through
+                        clean code and solid product thinking.
+                    </p>
+                    <div class="cta-group">
+                        <a href="#work" class="btn btn-primary">View My Work</a>
+                        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="stats">
+                <div class="container">
+                    <div class="stats-panel">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <h3>5+</h3>
+                                <p>Years Building</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>3</h3>
+                                <p>Products Launched</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>10K+</h3>
+                                <p>Users Impacted</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>$500K</h3>
+                                <p>Revenue Generated</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="content-section" id="about">
+                <div class="container narrow">
+                    <h2>About Me</h2>
+                    <p>
+                        I'm a builder at heart. After years of working as a software engineer,
+                        I realized my passion lies in creating products from scratch and solving
+                        problems that matter.
+                    </p>
+                    <p>
+                        Today, I'm focused on building my own app while helping other founders
+                        navigate the technical and product challenges of early-stage startups.
+                        I believe in shipping fast, learning from users, and iterating relentlessly.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="content-section" id="work">
+                <div class="container">
+                    <h2>Current Work</h2>
+                    <div class="project-grid">
+                        <div class="project-card">
+                            <div class="project-card-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="project-card-body">
+                                <h3>MyApp (Stealth)</h3>
+                                <p>
+                                    Building a platform that helps teams collaborate more effectively.
+                                    Currently in beta with 500+ users.
+                                </p>
+                                <span class="project-tag">SaaS</span>
+                                <span class="project-tag">Product</span>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-card-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="project-card-body">
+                                <h3>Previous Product</h3>
+                                <p>
+                                    Led product development from 0 to $500K ARR. Acquired by
+                                    TechCorp in 2024.
+                                </p>
+                                <span class="project-tag">B2B</span>
+                                <span class="project-tag">Exit</span>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-card-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="project-card-body">
+                                <h3>Open Source Tools</h3>
+                                <p>
+                                    Created developer tools used by 10,000+ developers worldwide.
+                                    Active maintainer and community builder.
+                                </p>
+                                <span class="project-tag">OSS</span>
+                                <span class="project-tag">Community</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer>
+                <div class="container">
+                    <p>&copy; 2024 Your Name. Building the future, one product at a time.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Theme Switcher
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const html = document.documentElement;
+
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.getAttribute('data-theme');
+
+                // Update active state
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Apply theme
+                html.setAttribute('data-theme', theme);
+
+                // Save preference
+                localStorage.setItem('theme-preview-ubuntu', theme);
+            });
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme-preview-ubuntu');
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            themeButtons.forEach(btn => {
+                if (btn.getAttribute('data-theme') === savedTheme) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Window button interactions (just for show)
+        document.querySelectorAll('.window-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (this.classList.contains('close')) {
+                    alert('Nice try! But this is a preview 😄');
+                }
+            });
+        });
+
+        // Dock item interactions
+        document.querySelectorAll('.dock-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.dock-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
