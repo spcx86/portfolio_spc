@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Site Theme - Builder Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --safety-yellow: #ffd700;
+            --construction-orange: #ff8c00;
+            --caution-red: #ff4444;
+            --concrete-gray: #6b7280;
+            --steel-dark: #374151;
+            --asphalt: #1f2937;
+            --white-paint: #ffffff;
+            --warning-stripe: repeating-linear-gradient(
+                45deg,
+                #000000,
+                #000000 20px,
+                #ffd700 20px,
+                #ffd700 40px
+            );
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--asphalt);
+            color: var(--white-paint);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Concrete Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(107, 114, 128, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(107, 114, 128, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Warning Tape Header */
+        .warning-tape {
+            height: 60px;
+            background: var(--warning-stripe);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .warning-tape::before,
+        .warning-tape::after {
+            content: '⚠️';
+            position: absolute;
+            font-size: 32px;
+            animation: blink 2s infinite;
+        }
+
+        .warning-tape::before {
+            left: 40px;
+        }
+
+        .warning-tape::after {
+            right: 40px;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+
+        .warning-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 4px;
+            color: var(--asphalt);
+            text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Safety Sign */
+        .safety-sign {
+            background: var(--safety-yellow);
+            color: var(--asphalt);
+            padding: 32px 48px;
+            margin: 40px auto;
+            max-width: 1200px;
+            border: 8px solid var(--asphalt);
+            box-shadow:
+                0 0 0 4px var(--safety-yellow),
+                0 8px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .safety-sign::before,
+        .safety-sign::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--steel-dark);
+            border-radius: 50%;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .safety-sign::before {
+            top: 16px;
+            left: 16px;
+        }
+
+        .safety-sign::after {
+            top: 16px;
+            right: 16px;
+        }
+
+        .safety-sign h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 64px;
+            letter-spacing: 6px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .safety-sign .subtitle {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hard Hat Zone Headers */
+        .hard-hat-zone {
+            background: var(--construction-orange);
+            color: var(--asphalt);
+            padding: 20px 32px;
+            margin: 60px 0 32px;
+            border: 4px solid var(--asphalt);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .hard-hat-zone::before {
+            content: '🏗️';
+            font-size: 40px;
+        }
+
+        .hard-hat-zone h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hard-hat-zone::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            right: 32px;
+            background: var(--safety-yellow);
+            color: var(--asphalt);
+            padding: 4px 12px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            border: 2px solid var(--asphalt);
+        }
+
+        .hard-hat-zone.zone-01::after {
+            content: 'ZONE 01';
+        }
+
+        .hard-hat-zone.zone-02::after {
+            content: 'ZONE 02';
+        }
+
+        .hard-hat-zone.zone-03::after {
+            content: 'ZONE 03';
+        }
+
+        /* Construction Barrier */
+        .barrier {
+            background: var(--steel-dark);
+            padding: 40px;
+            border: 4px solid var(--concrete-gray);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .barrier::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--warning-stripe);
+        }
+
+        .barrier::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--warning-stripe);
+        }
+
+        /* Description */
+        .description {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--white-paint);
+            margin-bottom: 24px;
+        }
+
+        /* Measurement Grid */
+        .measurements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .measurement-box {
+            background: var(--safety-yellow);
+            color: var(--asphalt);
+            padding: 28px;
+            border: 6px solid var(--asphalt);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .measurement-box:hover {
+            transform: translateY(-6px) rotate(-1deg);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .measurement-box::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 16px;
+            height: 16px;
+            background: var(--caution-red);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--caution-red);
+        }
+
+        .measurement-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 56px;
+            line-height: 1;
+            margin-bottom: 8px;
+            color: var(--asphalt);
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .measurement-label {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Build Site Cards */
+        .build-sites {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 32px;
+        }
+
+        .site-card {
+            background: var(--steel-dark);
+            border: 6px solid var(--concrete-gray);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .site-header {
+            background: var(--construction-orange);
+            color: var(--asphalt);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--asphalt);
+        }
+
+        .site-id {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .site-status {
+            background: var(--safety-yellow);
+            color: var(--asphalt);
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 2px solid var(--asphalt);
+        }
+
+        .site-content {
+            padding: 28px 24px;
+        }
+
+        .site-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: var(--safety-yellow);
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .site-card p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #d1d5db;
+            margin-bottom: 20px;
+        }
+
+        .permits {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .permit-tag {
+            background: var(--asphalt);
+            color: var(--safety-yellow);
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid var(--safety-yellow);
+        }
+
+        /* Safety Notice */
+        .safety-notice {
+            background: var(--caution-red);
+            color: var(--white-paint);
+            padding: 48px;
+            margin: 60px 0;
+            border: 8px solid var(--asphalt);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+        }
+
+        .safety-notice::before {
+            content: '⚠️ ATTENTION ⚠️';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--safety-yellow);
+            color: var(--asphalt);
+            padding: 8px 24px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 3px;
+            border: 4px solid var(--asphalt);
+        }
+
+        .safety-notice h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .safety-notice p {
+            font-size: 18px;
+            margin-bottom: 28px;
+            font-weight: 600;
+        }
+
+        /* Action Button */
+        .btn {
+            background: var(--safety-yellow);
+            color: var(--asphalt);
+            padding: 18px 48px;
+            border: 6px solid var(--asphalt);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background: var(--construction-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Safety Equipment List */
+        .safety-equipment {
+            background: var(--steel-dark);
+            padding: 32px;
+            border: 4px solid var(--concrete-gray);
+            margin-top: 40px;
+        }
+
+        .safety-equipment h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: var(--safety-yellow);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .safety-equipment ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .safety-equipment li {
+            color: #d1d5db;
+            font-weight: 600;
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .safety-equipment li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--construction-orange);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        /* Caution Footer */
+        .caution-footer {
+            margin-top: 80px;
+            padding: 24px;
+            background: var(--asphalt);
+            border: 4px solid var(--safety-yellow);
+            text-align: center;
+        }
+
+        .caution-footer p {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: var(--safety-yellow);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px 40px;
+            }
+
+            .safety-sign h1 {
+                font-size: 40px;
+            }
+
+            .warning-tape::before,
+            .warning-tape::after {
+                display: none;
+            }
+
+            .hard-hat-zone {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .build-sites {
+                grid-template-columns: 1fr;
+            }
+
+            .safety-notice {
+                padding: 32px 24px;
+            }
+        }
+
+        /* Corner Bolts */
+        .bolts {
+            position: relative;
+        }
+
+        .bolts::before,
+        .bolts::after {
+            content: '●';
+            position: absolute;
+            color: var(--concrete-gray);
+            font-size: 16px;
+        }
+
+        .bolts::before {
+            bottom: 12px;
+            left: 12px;
+        }
+
+        .bolts::after {
+            bottom: 12px;
+            right: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Warning Tape Header -->
+    <div class="warning-tape">
+        <div class="warning-text">SITE UNDER ACTIVE DEVELOPMENT</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Safety Sign -->
+        <div class="safety-sign">
+            <h1>Your Name</h1>
+            <div class="subtitle">Founder · Builder · Constructor</div>
+        </div>
+
+        <!-- Zone 01: Overview -->
+        <div class="hard-hat-zone zone-01">
+            <h2>Project Overview</h2>
+        </div>
+        <div class="barrier bolts">
+            <p class="description">
+                This is an active construction zone. I'm building products from the ground up—
+                laying foundations, pouring concrete, raising structures. Every project is
+                engineered for scale, built to last, and designed to serve real users.
+            </p>
+            <p class="description">
+                Currently on-site developing my own app while helping other founders break
+                ground on their visions. Safety first, quality always.
+            </p>
+        </div>
+
+        <!-- Zone 02: Measurements -->
+        <div class="hard-hat-zone zone-02">
+            <h2>Site Measurements</h2>
+        </div>
+        <div class="barrier">
+            <div class="measurements">
+                <div class="measurement-box">
+                    <div class="measurement-value">5+</div>
+                    <div class="measurement-label">Years On-Site</div>
+                </div>
+                <div class="measurement-box">
+                    <div class="measurement-value">3</div>
+                    <div class="measurement-label">Builds Completed</div>
+                </div>
+                <div class="measurement-box">
+                    <div class="measurement-value">10K+</div>
+                    <div class="measurement-label">Users Served</div>
+                </div>
+                <div class="measurement-box">
+                    <div class="measurement-value">$500K</div>
+                    <div class="measurement-label">Value Built</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zone 03: Active Build Sites -->
+        <div class="hard-hat-zone zone-03">
+            <h2>Active Build Sites</h2>
+        </div>
+        <div class="barrier">
+            <div class="build-sites">
+                <div class="site-card">
+                    <div class="site-header">
+                        <div class="site-id">SITE-A</div>
+                        <div class="site-status">Under Construction</div>
+                    </div>
+                    <div class="site-content">
+                        <h3>Current Build</h3>
+                        <p>
+                            Major construction project in progress. Collaboration platform
+                            being built with 500+ test users validating structural integrity.
+                            On schedule, on budget.
+                        </p>
+                        <div class="permits">
+                            <span class="permit-tag">SaaS</span>
+                            <span class="permit-tag">Live</span>
+                            <span class="permit-tag">Growing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="site-card">
+                    <div class="site-header">
+                        <div class="site-id">SITE-B</div>
+                        <div class="site-status">Completed</div>
+                    </div>
+                    <div class="site-content">
+                        <h3>Finished Build</h3>
+                        <p>
+                            Construction completed from foundation to $500K revenue.
+                            Full handover to TechCorp in 2024. All permits approved,
+                            structure certified.
+                        </p>
+                        <div class="permits">
+                            <span class="permit-tag">B2B</span>
+                            <span class="permit-tag">Exit</span>
+                            <span class="permit-tag">Acquired</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="site-card">
+                    <div class="site-header">
+                        <div class="site-id">SITE-C</div>
+                        <div class="site-status">Active</div>
+                    </div>
+                    <div class="site-content">
+                        <h3>Community Tools</h3>
+                        <p>
+                            Open-source construction tools and frameworks. Maintained
+                            infrastructure serving 10,000+ builders worldwide. Public works.
+                        </p>
+                        <div class="permits">
+                            <span class="permit-tag">OSS</span>
+                            <span class="permit-tag">Community</span>
+                            <span class="permit-tag">10K+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Safety Equipment -->
+        <div class="safety-equipment bolts">
+            <h4>⚠️ Required Safety Equipment (Tech Stack)</h4>
+            <ul>
+                <li>React Framework</li>
+                <li>Next.js Platform</li>
+                <li>TypeScript Tools</li>
+                <li>PostgreSQL Foundation</li>
+                <li>AWS Infrastructure</li>
+                <li>Git Version Control</li>
+            </ul>
+        </div>
+
+        <!-- Safety Notice CTA -->
+        <div class="safety-notice">
+            <h3>Ready to Break Ground?</h3>
+            <p>
+                Have a project that needs building? Let's discuss blueprints,
+                timeline, and budget. Safety helmets required.
+            </p>
+            <button class="btn">Contact Foreman</button>
+        </div>
+
+        <!-- Caution Footer -->
+        <div class="caution-footer">
+            <p>© 2024 Your Construction Co. · Building The Future · Hard Hats Required</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
