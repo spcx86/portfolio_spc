@@ -168,6 +168,10 @@
             cursor: move;
         }
 
+        .window-titlebar:active {
+            cursor: grabbing;
+        }
+
         .window-controls {
             display: flex;
             gap: 8px;
@@ -781,6 +785,66 @@
         if (firstDock) {
             firstDock.classList.add('active');
         }
+
+        // Window Dragging Functionality
+        let isDragging = false;
+        let currentWindow = null;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        document.querySelectorAll('.window-titlebar').forEach(titlebar => {
+            titlebar.addEventListener('mousedown', function(e) {
+                // Don't drag if clicking on buttons
+                if (e.target.classList.contains('window-btn')) return;
+
+                isDragging = true;
+                currentWindow = this.closest('.window');
+                bringToFront(currentWindow);
+
+                // Calculate offset from mouse to window position
+                const rect = currentWindow.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+
+                // Add dragging class for visual feedback
+                currentWindow.style.cursor = 'grabbing';
+                titlebar.style.cursor = 'grabbing';
+
+                // Prevent text selection while dragging
+                e.preventDefault();
+            });
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging || !currentWindow) return;
+
+            // Calculate new position
+            let newX = e.clientX - offsetX;
+            let newY = e.clientY - offsetY;
+
+            // Keep window within viewport bounds (optional)
+            const rect = currentWindow.getBoundingClientRect();
+            const maxX = window.innerWidth - rect.width;
+            const maxY = window.innerHeight - rect.height;
+
+            newX = Math.max(0, Math.min(newX, maxX));
+            newY = Math.max(0, Math.min(newY, maxY));
+
+            // Update window position
+            currentWindow.style.left = newX + 'px';
+            currentWindow.style.top = newY + 'px';
+            currentWindow.style.transform = 'none'; // Remove centering transform
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isDragging && currentWindow) {
+                currentWindow.style.cursor = '';
+                const titlebar = currentWindow.querySelector('.window-titlebar');
+                if (titlebar) titlebar.style.cursor = 'move';
+                isDragging = false;
+                currentWindow = null;
+            }
+        });
     </script>
 
 </body>
