@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal OS Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-desktop: #0a0a0a;
+            --bg-window: #111111;
+            --bg-elevated: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent-primary: #00d9ff;
+            --accent-hover: #00b8d4;
+            --border-color: #222222;
+            --shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            min-height: 100vh;
+            background: var(--bg-desktop);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Minimal Top Bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 10000;
+            font-size: 13px;
+        }
+
+        .top-bar-left {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            color: var(--text-secondary);
+        }
+
+        .app-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Minimal Launcher */
+        .launcher {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(17, 17, 17, 0.95);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px 12px;
+            display: flex;
+            gap: 4px;
+            z-index: 9999;
+        }
+
+        .launcher-item {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-elevated);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .launcher-item:hover {
+            background: var(--accent-primary);
+            color: var(--bg-desktop);
+            transform: scale(1.05);
+        }
+
+        .launcher-item.active {
+            border-color: var(--accent-primary);
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent-primary);
+        }
+
+        /* Window */
+        .window {
+            position: absolute;
+            background: var(--bg-window);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .window.minimized {
+            transform: scale(0.8) translateY(100vh);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .window.maximized {
+            top: 32px !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: calc(100vh - 32px) !important;
+            border-radius: 0 !important;
+            transform: none !important;
+        }
+
+        .window.active {
+            z-index: 100;
+        }
+
+        /* Window positioning */
+        .window[data-window="home"] {
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(1000px, 90vw);
+            height: 600px;
+        }
+
+        .window[data-window="projects"] {
+            top: 120px;
+            left: calc(50% + 30px);
+            transform: translateX(-50%);
+            width: min(900px, 85vw);
+            height: 500px;
+        }
+
+        .window[data-window="blog"] {
+            top: 160px;
+            left: calc(50% - 30px);
+            transform: translateX(-50%);
+            width: min(800px, 80vw);
+            height: 450px;
+        }
+
+        /* Window Header */
+        .window-header {
+            background: var(--bg-elevated);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: move;
+            user-select: none;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .window-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-control {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .window-control:hover {
+            background: var(--bg-window);
+            color: var(--text-primary);
+            border-color: var(--text-muted);
+        }
+
+        .window-control.close:hover {
+            background: #ff4444;
+            color: white;
+            border-color: #ff4444;
+        }
+
+        /* Window Content */
+        .window-content {
+            padding: 32px;
+            overflow-y: auto;
+            height: calc(100% - 41px);
+        }
+
+        /* Content Styling */
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: var(--accent-primary);
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            background: var(--accent-primary);
+            color: var(--bg-desktop);
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .stat-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .project-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent-primary);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-top: 8px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-window);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-elevated);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .window {
+                width: 95% !important;
+                max-width: none !important;
+            }
+
+            .launcher {
+                bottom: 8px;
+                padding: 6px 8px;
+            }
+
+            .launcher-item {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .window-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="app-name">Portfolio</div>
+        </div>
+        <div class="top-bar-right">
+            <span id="time">12:00</span>
+            <span>●</span>
+        </div>
+    </div>
+
+    <!-- Launcher -->
+    <div class="launcher">
+        <div class="launcher-item active" data-window="home" title="Home">🏠</div>
+        <div class="launcher-item" data-window="projects" title="Projects">💼</div>
+        <div class="launcher-item" data-window="blog" title="Blog">✍️</div>
+    </div>
+
+    <!-- Home Window -->
+    <div class="window active" data-window="home">
+        <div class="window-header">
+            <div class="window-title">Home</div>
+            <div class="window-controls">
+                <button class="window-control minimize" data-action="minimize" title="Minimize">−</button>
+                <button class="window-control maximize" data-action="maximize" title="Maximize">□</button>
+                <button class="window-control close" data-action="minimize" title="Close">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <h1>Welcome 👋</h1>
+            <p class="tagline">Founder & Product Builder</p>
+            <p>
+                I create technology that solves real problems. Currently building
+                my own app and helping founders bring their visions to life.
+            </p>
+            <div style="margin-top: 24px;">
+                <button class="btn">View My Work →</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Years</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$500K</div>
+                    <div class="stat-label">Revenue</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Window -->
+    <div class="window minimized" data-window="projects">
+        <div class="window-header">
+            <div class="window-title">Projects</div>
+            <div class="window-controls">
+                <button class="window-control minimize" data-action="minimize" title="Minimize">−</button>
+                <button class="window-control maximize" data-action="maximize" title="Maximize">□</button>
+                <button class="window-control close" data-action="minimize" title="Close">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <h2>My Work</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>🚀 Current Project</h3>
+                    <p>
+                        Building a platform that helps teams collaborate. 500+ users in beta.
+                    </p>
+                    <span class="tag">SaaS</span>
+                    <span class="tag">Live</span>
+                </div>
+                <div class="project-card">
+                    <h3>💰 Last Exit</h3>
+                    <p>
+                        Scaled to $500K ARR. Acquired by TechCorp in 2024.
+                    </p>
+                    <span class="tag">B2B</span>
+                    <span class="tag">Exit</span>
+                </div>
+                <div class="project-card">
+                    <h3>🛠️ Open Source</h3>
+                    <p>
+                        Developer tools used by 10,000+ developers worldwide.
+                    </p>
+                    <span class="tag">OSS</span>
+                    <span class="tag">10K+</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <h2>Tech Stack</h2>
+                <p>
+                    I build with modern technologies: React, Next.js, TypeScript, PostgreSQL.
+                    Focused on shipping fast and iterating quickly.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Window -->
+    <div class="window minimized" data-window="blog">
+        <div class="window-header">
+            <div class="window-title">Blog</div>
+            <div class="window-controls">
+                <button class="window-control minimize" data-action="minimize" title="Minimize">−</button>
+                <button class="window-control maximize" data-action="maximize" title="Maximize">□</button>
+                <button class="window-control close" data-action="minimize" title="Close">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <h2>Writing</h2>
+            <div style="margin-top: 24px;">
+                <div class="project-card" style="margin-bottom: 16px;">
+                    <h3>Building in Public</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">March 2024</p>
+                    <p>What I learned from sharing my journey and finding my first 100 users.</p>
+                    <span class="tag">Startup</span>
+                    <span class="tag">Growth</span>
+                </div>
+                <div class="project-card" style="margin-bottom: 16px;">
+                    <h3>From Engineer to Founder</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">February 2024</p>
+                    <p>The mindset shift required to build products, not just code.</p>
+                    <span class="tag">Career</span>
+                    <span class="tag">Product</span>
+                </div>
+                <div class="project-card">
+                    <h3>Shipping Fast</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">January 2024</p>
+                    <p>My framework for rapid iteration while maintaining quality.</p>
+                    <span class="tag">Engineering</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Clock
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}`;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Window Management
+        const windows = document.querySelectorAll('.window');
+        const launcherItems = document.querySelectorAll('.launcher-item');
+
+        // Launcher clicks
+        launcherItems.forEach(item => {
+            const windowId = item.getAttribute('data-window');
+            if (!windowId) return;
+
+            item.addEventListener('click', () => {
+                const targetWindow = document.querySelector(`.window[data-window="${windowId}"]`);
+                if (!targetWindow) return;
+
+                if (targetWindow.classList.contains('minimized')) {
+                    targetWindow.classList.remove('minimized');
+                    bringToFront(targetWindow);
+                    setActiveLauncherItem(item);
+                } else if (targetWindow.classList.contains('active')) {
+                    targetWindow.classList.add('minimized');
+                    item.classList.remove('active');
+                } else {
+                    bringToFront(targetWindow);
+                    setActiveLauncherItem(item);
+                }
+            });
+        });
+
+        // Window control buttons
+        document.querySelectorAll('.window-control').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.getAttribute('data-action');
+                const window = this.closest('.window');
+                const windowId = window.getAttribute('data-window');
+                const launcherItem = document.querySelector(`.launcher-item[data-window="${windowId}"]`);
+
+                if (action === 'minimize') {
+                    window.classList.add('minimized');
+                    window.classList.remove('maximized');
+                    if (launcherItem) launcherItem.classList.remove('active');
+                } else if (action === 'maximize') {
+                    window.classList.toggle('maximized');
+                }
+            });
+        });
+
+        // Click window to bring to front
+        windows.forEach(window => {
+            window.addEventListener('mousedown', () => {
+                if (!window.classList.contains('minimized')) {
+                    bringToFront(window);
+                }
+            });
+        });
+
+        function bringToFront(window) {
+            windows.forEach(w => w.classList.remove('active'));
+            window.classList.add('active');
+        }
+
+        function setActiveLauncherItem(item) {
+            launcherItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+        }
+
+        // Window Dragging
+        let isDragging = false;
+        let currentWindow = null;
+        let startMouseX = 0, startMouseY = 0;
+        let startWindowX = 0, startWindowY = 0;
+
+        document.querySelectorAll('.window-header').forEach(header => {
+            header.addEventListener('mousedown', function(e) {
+                if (e.target.classList.contains('window-control')) return;
+
+                const window = this.closest('.window');
+                if (window.classList.contains('maximized')) return; // Don't drag maximized windows
+
+                isDragging = true;
+                currentWindow = window;
+                bringToFront(currentWindow);
+
+                const rect = currentWindow.getBoundingClientRect();
+                startMouseX = e.clientX;
+                startMouseY = e.clientY;
+                startWindowX = rect.left;
+                startWindowY = rect.top;
+
+                if (!currentWindow.style.left || currentWindow.style.left.includes('%')) {
+                    currentWindow.style.left = startWindowX + 'px';
+                    currentWindow.style.top = startWindowY + 'px';
+                    currentWindow.style.transform = 'none';
+                }
+
+                e.preventDefault();
+            });
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging || !currentWindow) return;
+
+            const deltaX = e.clientX - startMouseX;
+            const deltaY = e.clientY - startMouseY;
+
+            let newX = startWindowX + deltaX;
+            let newY = startWindowY + deltaY;
+
+            const rect = currentWindow.getBoundingClientRect();
+            const maxX = window.innerWidth - rect.width;
+            const maxY = window.innerHeight - rect.height - 60;
+
+            newX = Math.max(0, Math.min(newX, maxX));
+            newY = Math.max(32, Math.min(newY, maxY));
+
+            currentWindow.style.left = newX + 'px';
+            currentWindow.style.top = newY + 'px';
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            currentWindow = null;
+        });
+
+        // Double click to maximize
+        document.querySelectorAll('.window-header').forEach(header => {
+            header.addEventListener('dblclick', function(e) {
+                if (e.target.classList.contains('window-control')) return;
+                const window = this.closest('.window');
+                window.classList.toggle('maximized');
+            });
+        });
+    </script>
+
+</body>
+</html>
