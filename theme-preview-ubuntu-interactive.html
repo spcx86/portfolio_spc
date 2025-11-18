@@ -789,8 +789,10 @@
         // Window Dragging Functionality
         let isDragging = false;
         let currentWindow = null;
-        let offsetX = 0;
-        let offsetY = 0;
+        let startMouseX = 0;
+        let startMouseY = 0;
+        let startWindowX = 0;
+        let startWindowY = 0;
 
         document.querySelectorAll('.window-titlebar').forEach(titlebar => {
             titlebar.addEventListener('mousedown', function(e) {
@@ -801,10 +803,23 @@
                 currentWindow = this.closest('.window');
                 bringToFront(currentWindow);
 
-                // Calculate offset from mouse to window position
+                // Get current window position
                 const rect = currentWindow.getBoundingClientRect();
-                offsetX = e.clientX - rect.left;
-                offsetY = e.clientY - rect.top;
+
+                // Store starting mouse position
+                startMouseX = e.clientX;
+                startMouseY = e.clientY;
+
+                // Store starting window position (top-left corner)
+                startWindowX = rect.left;
+                startWindowY = rect.top;
+
+                // Convert window to absolute positioning if it isn't already
+                if (!currentWindow.style.left || currentWindow.style.left.includes('%')) {
+                    currentWindow.style.left = startWindowX + 'px';
+                    currentWindow.style.top = startWindowY + 'px';
+                    currentWindow.style.transform = 'none';
+                }
 
                 // Add dragging class for visual feedback
                 currentWindow.style.cursor = 'grabbing';
@@ -818,11 +833,15 @@
         document.addEventListener('mousemove', function(e) {
             if (!isDragging || !currentWindow) return;
 
-            // Calculate new position
-            let newX = e.clientX - offsetX;
-            let newY = e.clientY - offsetY;
+            // Calculate how far the mouse has moved
+            const deltaX = e.clientX - startMouseX;
+            const deltaY = e.clientY - startMouseY;
 
-            // Keep window within viewport bounds (optional)
+            // Calculate new position based on starting position + mouse movement
+            let newX = startWindowX + deltaX;
+            let newY = startWindowY + deltaY;
+
+            // Keep window within viewport bounds
             const rect = currentWindow.getBoundingClientRect();
             const maxX = window.innerWidth - rect.width;
             const maxY = window.innerHeight - rect.height;
@@ -830,10 +849,9 @@
             newX = Math.max(0, Math.min(newX, maxX));
             newY = Math.max(0, Math.min(newY, maxY));
 
-            // Update window position
+            // Update window position smoothly
             currentWindow.style.left = newX + 'px';
             currentWindow.style.top = newY + 'px';
-            currentWindow.style.transform = 'none'; // Remove centering transform
         });
 
         document.addEventListener('mouseup', function() {
