@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Theme - Builder Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --wood-dark: #3d2817;
+            --wood-medium: #5c3d2e;
+            --wood-light: #8b6f47;
+            --wood-grain: #a08562;
+            --sawdust: #f4e8d8;
+            --metal: #6b7280;
+            --brass: #b8860b;
+            --rust: #b7410e;
+            --leather: #654321;
+            --warm-white: #faf8f3;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: var(--sawdust);
+            color: var(--wood-dark);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Wood Texture Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 111, 71, 0.03) 2px,
+                    rgba(139, 111, 71, 0.03) 4px
+                );
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Workshop Sign Header */
+        .workshop-sign {
+            background: var(--wood-dark);
+            color: var(--sawdust);
+            padding: 24px 40px;
+            text-align: center;
+            box-shadow:
+                0 4px 0 var(--wood-medium),
+                0 8px 20px rgba(0, 0, 0, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+            position: relative;
+            border-bottom: 4px solid var(--leather);
+        }
+
+        .workshop-sign::before,
+        .workshop-sign::after {
+            content: '🔨';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 32px;
+            opacity: 0.3;
+        }
+
+        .workshop-sign::before {
+            left: 40px;
+        }
+
+        .workshop-sign::after {
+            right: 40px;
+        }
+
+        .workshop-sign h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 8px;
+        }
+
+        .workshop-sign .tagline {
+            font-size: 16px;
+            color: var(--wood-grain);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tool Bar Navigation */
+        .tool-bar {
+            background: var(--wood-medium);
+            padding: 16px 24px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow:
+                0 4px 0 var(--wood-dark),
+                0 6px 20px rgba(0, 0, 0, 0.2),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .tool-item {
+            color: var(--sawdust);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Workbench Section Headers */
+        .workbench-header {
+            background: var(--wood-light);
+            color: var(--warm-white);
+            padding: 20px 32px;
+            margin: 60px 0 32px;
+            border-radius: 8px 8px 0 0;
+            box-shadow:
+                0 4px 0 var(--wood-medium),
+                0 6px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .workbench-header::before {
+            content: '';
+            width: 40px;
+            height: 40px;
+            background: var(--brass);
+            border-radius: 50%;
+            box-shadow:
+                inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .workbench-header h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Workbench (Content Area) */
+        .workbench {
+            background: var(--warm-white);
+            padding: 40px;
+            border-radius: 0 0 8px 8px;
+            box-shadow:
+                0 8px 0 var(--wood-light),
+                0 12px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+            border: 3px solid var(--wood-medium);
+            border-top: none;
+        }
+
+        /* Wood Screws Decoration */
+        .workbench::before,
+        .workbench::after {
+            content: '◉';
+            position: absolute;
+            top: 20px;
+            color: var(--metal);
+            font-size: 20px;
+            opacity: 0.3;
+        }
+
+        .workbench::before {
+            left: 20px;
+        }
+
+        .workbench::after {
+            right: 20px;
+        }
+
+        /* Description Text */
+        .description {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--wood-medium);
+            margin-bottom: 20px;
+        }
+
+        /* Tool Stats Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .tool-card {
+            background: var(--wood-medium);
+            color: var(--sawdust);
+            padding: 28px;
+            border-radius: 8px;
+            box-shadow:
+                0 4px 0 var(--wood-dark),
+                0 8px 20px rgba(0, 0, 0, 0.2),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--brass);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 6px 0 var(--wood-dark),
+                0 12px 30px rgba(0, 0, 0, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-value {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--brass);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: var(--wood-grain);
+        }
+
+        /* Project Boards */
+        .project-boards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 32px;
+        }
+
+        .project-board {
+            background: var(--warm-white);
+            border: 4px solid var(--wood-light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow:
+                0 8px 0 var(--wood-medium),
+                0 12px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .project-board:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 12px 0 var(--wood-medium),
+                0 16px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-board::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--metal),
+                var(--metal) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            opacity: 0.3;
+        }
+
+        .project-header {
+            background: var(--wood-light);
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-title {
+            font-family: 'Merriweather', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--warm-white);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-status {
+            background: var(--brass);
+            color: var(--wood-dark);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-content {
+            padding: 24px;
+        }
+
+        .project-board p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--wood-medium);
+            margin-bottom: 20px;
+        }
+
+        .materials {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .material-tag {
+            background: var(--wood-medium);
+            color: var(--sawdust);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Call to Action - Workstation */
+        .workstation {
+            background: var(--wood-dark);
+            color: var(--sawdust);
+            padding: 48px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 60px 0;
+            box-shadow:
+                0 8px 0 var(--leather),
+                0 12px 40px rgba(0, 0, 0, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .workstation::before,
+        .workstation::after {
+            content: '⚒️';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            opacity: 0.2;
+        }
+
+        .workstation::before {
+            left: 40px;
+        }
+
+        .workstation::after {
+            right: 40px;
+        }
+
+        .workstation h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 32px;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .workstation p {
+            font-size: 16px;
+            color: var(--wood-grain);
+            margin-bottom: 28px;
+        }
+
+        .btn {
+            background: var(--brass);
+            color: var(--wood-dark);
+            padding: 16px 36px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow:
+                0 4px 0 var(--rust),
+                0 6px 20px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 6px 0 var(--rust),
+                0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow:
+                0 2px 0 var(--rust),
+                0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sawdust Footer */
+        .sawdust-pile {
+            margin-top: 80px;
+            padding: 32px;
+            text-align: center;
+            color: var(--wood-medium);
+            font-size: 14px;
+            position: relative;
+        }
+
+        .sawdust-pile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--wood-light),
+                var(--wood-light) 5px,
+                transparent 5px,
+                transparent 10px
+            );
+        }
+
+        /* Texture Overlays */
+        .wood-texture {
+            position: relative;
+        }
+
+        .wood-texture::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.02) 2px,
+                    rgba(0, 0, 0, 0.02) 4px
+                );
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .workshop-sign h1 {
+                font-size: 32px;
+            }
+
+            .workshop-sign::before,
+            .workshop-sign::after {
+                display: none;
+            }
+
+            .tool-bar {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .workbench {
+                padding: 24px;
+            }
+
+            .project-boards {
+                grid-template-columns: 1fr;
+            }
+
+            .workstation::before,
+            .workstation::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Workshop Sign Header -->
+    <div class="workshop-sign">
+        <h1>Your Workshop</h1>
+        <div class="tagline">Founder · Builder · Maker</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Tool Bar Navigation -->
+        <div class="tool-bar">
+            <a href="#" class="tool-item">🏠 Home</a>
+            <a href="#" class="tool-item">🔨 Projects</a>
+            <a href="#" class="tool-item">📝 Notes</a>
+            <a href="#" class="tool-item">📧 Contact</a>
+        </div>
+
+        <!-- Introduction Section -->
+        <div class="workbench-header">
+            <h2>The Workshop</h2>
+        </div>
+        <div class="workbench wood-texture">
+            <p class="description">
+                Welcome to my workshop. This is where ideas become reality—where I craft
+                products with care, attention to detail, and a maker's touch. Every project
+                is hand-built from scratch, refined through iteration, and finished with pride.
+            </p>
+            <p class="description">
+                I don't just write code. I build things. Real, tangible products that people
+                use every day. Currently working on my own app while helping other makers
+                bring their visions to life.
+            </p>
+        </div>
+
+        <!-- Tools (Stats) Section -->
+        <div class="workbench-header" style="margin-top: 60px;">
+            <h2>Tools & Experience</h2>
+        </div>
+        <div class="workbench wood-texture">
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-value">5+</div>
+                    <div class="tool-label">Years Crafting</div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-value">3</div>
+                    <div class="tool-label">Products Built</div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-value">10K+</div>
+                    <div class="tool-label">Users Served</div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-value">$500K</div>
+                    <div class="tool-label">Value Created</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="workbench-header" style="margin-top: 60px;">
+            <h2>Current Projects</h2>
+        </div>
+        <div class="workbench wood-texture">
+            <div class="project-boards">
+                <div class="project-board">
+                    <div class="project-header">
+                        <div class="project-title">Active Build</div>
+                        <div class="project-status">In Progress</div>
+                    </div>
+                    <div class="project-content">
+                        <p>
+                            Crafting a collaboration platform from the ground up. Hand-building
+                            each feature, testing with 500+ makers in the community. Every detail
+                            matters.
+                        </p>
+                        <div class="materials">
+                            <span class="material-tag">SaaS</span>
+                            <span class="material-tag">Live</span>
+                            <span class="material-tag">Growing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-board">
+                    <div class="project-header">
+                        <div class="project-title">Completed Work</div>
+                        <div class="project-status">Finished</div>
+                    </div>
+                    <div class="project-content">
+                        <p>
+                            Built from first sketch to $500K revenue. Every nail, every joint,
+                            every feature crafted with intention. Sold to TechCorp in 2024.
+                        </p>
+                        <div class="materials">
+                            <span class="material-tag">B2B</span>
+                            <span class="material-tag">Exit</span>
+                            <span class="material-tag">Acquired</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-board">
+                    <div class="project-header">
+                        <div class="project-title">Open Tools</div>
+                        <div class="project-status">Active</div>
+                    </div>
+                    <div class="project-content">
+                        <p>
+                            Sharing my tools with the maker community. Developer frameworks and
+                            utilities used by 10,000+ builders worldwide. Open-source craftsmanship.
+                        </p>
+                        <div class="materials">
+                            <span class="material-tag">OSS</span>
+                            <span class="material-tag">Community</span>
+                            <span class="material-tag">10K+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Philosophy Section -->
+        <div class="workbench-header" style="margin-top: 60px;">
+            <h2>Maker Philosophy</h2>
+        </div>
+        <div class="workbench wood-texture">
+            <p class="description">
+                <strong>Every product deserves care.</strong> I believe in the value of
+                hand-crafted work—software built with the same attention a woodworker gives
+                to a fine table or a blacksmith to a forged tool.
+            </p>
+            <p class="description">
+                Measure twice, cut once. Ship early, iterate constantly. Build for people,
+                not metrics. These are the principles I bring to every project.
+            </p>
+        </div>
+
+        <!-- Call to Action Workstation -->
+        <div class="workstation">
+            <h3>Let's Build Something</h3>
+            <p>Have a project in mind? Let's talk about how we can craft it together.</p>
+            <button class="btn">Get In Touch</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="sawdust-pile">
+            <p>&copy; 2024 Your Workshop. Hand-crafted with care.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
