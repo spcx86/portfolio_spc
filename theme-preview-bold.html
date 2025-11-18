@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bold Founder Themes - Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ==================== THEME 1: BRUTALIST ==================== */
+        html[data-theme="brutalist"] {
+            --bg-base: #ffffff;
+            --bg-elevated: #000000;
+            --bg-overlay: #ffff00;
+            --text-primary: #000000;
+            --text-secondary: #000000;
+            --text-muted: #666666;
+            --accent-primary: #ffff00;
+            --accent-secondary: #ff0000;
+            --accent-hover: #000000;
+            --border-color: #000000;
+            --border-width: 4px;
+            --shadow: none;
+        }
+
+        /* ==================== THEME 2: NEOBRUTALIST ==================== */
+        html[data-theme="neobrutalist"] {
+            --bg-base: #fef6e4;
+            --bg-elevated: #ffffff;
+            --bg-overlay: #f582ae;
+            --text-primary: #001858;
+            --text-secondary: #001858;
+            --text-muted: #172c66;
+            --accent-primary: #8bd3dd;
+            --accent-secondary: #f582ae;
+            --accent-hover: #001858;
+            --border-color: #001858;
+            --border-width: 3px;
+            --shadow: 8px 8px 0px #001858;
+        }
+
+        /* ==================== THEME 3: GLASSMORPHISM ==================== */
+        html[data-theme="glassmorphism"] {
+            --bg-base: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-elevated: rgba(255, 255, 255, 0.15);
+            --bg-overlay: rgba(255, 255, 255, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.9);
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --accent-primary: #ffffff;
+            --accent-secondary: #ffd700;
+            --accent-hover: rgba(255, 255, 255, 0.3);
+            --border-color: rgba(255, 255, 255, 0.3);
+            --border-width: 1px;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism special background */
+        html[data-theme="glassmorphism"] body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        html[data-theme="brutalist"] body,
+        html[data-theme="neobrutalist"] body {
+            background: var(--bg-base);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .narrow {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Theme Selector */
+        .theme-selector {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .theme-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Brutalist theme button styling */
+        html[data-theme="brutalist"] .theme-btn {
+            background: var(--bg-base);
+            border: var(--border-width) solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        html[data-theme="brutalist"] .theme-btn:hover {
+            background: var(--accent-primary);
+        }
+
+        html[data-theme="brutalist"] .theme-btn.active {
+            background: var(--accent-primary);
+        }
+
+        /* Neobrutalist theme button styling */
+        html[data-theme="neobrutalist"] .theme-btn {
+            background: var(--bg-elevated);
+            border: var(--border-width) solid var(--border-color);
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+        }
+
+        html[data-theme="neobrutalist"] .theme-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px var(--border-color);
+        }
+
+        html[data-theme="neobrutalist"] .theme-btn.active {
+            background: var(--accent-primary);
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px var(--border-color);
+        }
+
+        /* Glassmorphism theme button styling */
+        html[data-theme="glassmorphism"] .theme-btn {
+            background: var(--bg-elevated);
+            border: var(--border-width) solid var(--border-color);
+            color: var(--text-primary);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            border-radius: 12px;
+        }
+
+        html[data-theme="glassmorphism"] .theme-btn:hover {
+            background: var(--bg-overlay);
+        }
+
+        html[data-theme="glassmorphism"] .theme-btn.active {
+            background: var(--bg-overlay);
+        }
+
+        /* Header */
+        header {
+            padding: 60px 0 40px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--text-primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        html[data-theme="brutalist"] .nav-links a:hover,
+        html[data-theme="neobrutalist"] .nav-links a:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+        }
+
+        html[data-theme="glassmorphism"] .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 120px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 80px;
+            font-weight: 900;
+            line-height: 0.95;
+            margin-bottom: 32px;
+            color: var(--text-primary);
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+        }
+
+        html[data-theme="brutalist"] .hero h1 {
+            text-shadow: 6px 6px 0 var(--accent-primary);
+        }
+
+        html[data-theme="neobrutalist"] .hero h1 {
+            color: var(--text-primary);
+        }
+
+        .hero .tagline {
+            font-size: 28px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        html[data-theme="brutalist"] .hero .tagline {
+            background: var(--accent-primary);
+            display: inline-block;
+            padding: 8px 24px;
+            border: var(--border-width) solid var(--border-color);
+        }
+
+        html[data-theme="neobrutalist"] .hero .tagline {
+            background: var(--accent-secondary);
+            display: inline-block;
+            padding: 8px 24px;
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: 6px 6px 0 var(--border-color);
+        }
+
+        .hero .description {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 48px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* CTA Buttons */
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 48px;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Brutalist buttons */
+        html[data-theme="brutalist"] .btn-primary {
+            background: var(--accent-primary);
+            color: var(--text-primary);
+            border: var(--border-width) solid var(--border-color);
+        }
+
+        html[data-theme="brutalist"] .btn-primary:hover {
+            background: var(--accent-secondary);
+        }
+
+        html[data-theme="brutalist"] .btn-secondary {
+            background: var(--bg-base);
+            color: var(--text-primary);
+            border: var(--border-width) solid var(--border-color);
+        }
+
+        html[data-theme="brutalist"] .btn-secondary:hover {
+            background: var(--accent-primary);
+        }
+
+        /* Neobrutalist buttons */
+        html[data-theme="neobrutalist"] .btn-primary {
+            background: var(--accent-primary);
+            color: var(--text-primary);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        html[data-theme="neobrutalist"] .btn-primary:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px var(--border-color);
+        }
+
+        html[data-theme="neobrutalist"] .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        html[data-theme="neobrutalist"] .btn-secondary:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px var(--border-color);
+            background: var(--accent-secondary);
+        }
+
+        /* Glassmorphism buttons */
+        html[data-theme="glassmorphism"] .btn-primary {
+            background: var(--bg-overlay);
+            color: var(--text-primary);
+            border: var(--border-width) solid var(--border-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            border-radius: 12px;
+        }
+
+        html[data-theme="glassmorphism"] .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+
+        html[data-theme="glassmorphism"] .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: var(--border-width) solid var(--border-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+        }
+
+        html[data-theme="glassmorphism"] .btn-secondary:hover {
+            background: var(--bg-overlay);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+        }
+
+        html[data-theme="brutalist"] .stats {
+            background: var(--bg-elevated);
+            color: var(--accent-primary);
+            border-top: var(--border-width) solid var(--border-color);
+            border-bottom: var(--border-width) solid var(--border-color);
+        }
+
+        html[data-theme="neobrutalist"] .stats {
+            background: var(--bg-elevated);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: 12px 12px 0 var(--border-color);
+            margin: 0 24px;
+        }
+
+        html[data-theme="glassmorphism"] .stats {
+            background: var(--bg-elevated);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 24px;
+            margin: 0 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        html[data-theme="brutalist"] .stat-item h3 {
+            color: var(--accent-primary);
+        }
+
+        html[data-theme="neobrutalist"] .stat-item h3 {
+            color: var(--accent-primary);
+        }
+
+        html[data-theme="glassmorphism"] .stat-item h3 {
+            color: var(--text-primary);
+        }
+
+        .stat-item p {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        html[data-theme="brutalist"] .stat-item p {
+            color: var(--bg-base);
+        }
+
+        html[data-theme="neobrutalist"] .stat-item p {
+            color: var(--text-secondary);
+        }
+
+        html[data-theme="glassmorphism"] .stat-item p {
+            color: var(--text-secondary);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 120px 0;
+        }
+
+        .content-section h2 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 32px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        html[data-theme="brutalist"] .content-section h2 {
+            border-bottom: var(--border-width) solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        html[data-theme="neobrutalist"] .content-section h2 {
+            display: inline-block;
+            background: var(--accent-secondary);
+            padding: 12px 24px;
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: 8px 8px 0 var(--border-color);
+        }
+
+        .content-section p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 64px;
+        }
+
+        .project-card {
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        /* Brutalist cards */
+        html[data-theme="brutalist"] .project-card {
+            background: var(--bg-base);
+            border: var(--border-width) solid var(--border-color);
+        }
+
+        html[data-theme="brutalist"] .project-card:hover {
+            background: var(--accent-primary);
+        }
+
+        /* Neobrutalist cards */
+        html[data-theme="neobrutalist"] .project-card {
+            background: var(--bg-elevated);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        html[data-theme="neobrutalist"] .project-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px var(--border-color);
+        }
+
+        /* Glassmorphism cards */
+        html[data-theme="glassmorphism"] .project-card {
+            background: var(--bg-elevated);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 20px;
+        }
+
+        html[data-theme="glassmorphism"] .project-card:hover {
+            background: var(--bg-overlay);
+            transform: translateY(-8px);
+        }
+
+        .project-card h3 {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+        }
+
+        .project-card p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Brutalist tags */
+        html[data-theme="brutalist"] .project-tag {
+            background: var(--bg-elevated);
+            color: var(--accent-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        /* Neobrutalist tags */
+        html[data-theme="neobrutalist"] .project-tag {
+            background: var(--accent-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            box-shadow: 3px 3px 0 var(--border-color);
+        }
+
+        /* Glassmorphism tags */
+        html[data-theme="glassmorphism"] .project-tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 20px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        html[data-theme="brutalist"] footer {
+            background: var(--bg-elevated);
+            color: var(--bg-base);
+            border-top: var(--border-width) solid var(--border-color);
+        }
+
+        html[data-theme="neobrutalist"] footer {
+            border-top: var(--border-width) solid var(--border-color);
+        }
+
+        footer p {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        html[data-theme="brutalist"] footer p {
+            color: var(--bg-base);
+        }
+
+        html[data-theme="neobrutalist"] footer p {
+            color: var(--text-muted);
+        }
+
+        html[data-theme="glassmorphism"] footer p {
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .theme-selector {
+                top: 12px;
+                right: 12px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero .tagline {
+                font-size: 20px;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="neobrutalist">
+
+    <!-- Theme Selector -->
+    <div class="theme-selector">
+        <button class="theme-btn" data-theme="brutalist">Brutalist</button>
+        <button class="theme-btn active" data-theme="neobrutalist">Neobrutalist</button>
+        <button class="theme-btn" data-theme="glassmorphism">Glassmorphism</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">YourName</a>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#writing">Writing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container narrow">
+            <h1>Building<br>The Future</h1>
+            <p class="tagline">Founder & Builder</p>
+            <p class="description">
+                I don't just write code—I build products that solve real problems
+                and create value. Currently shipping my own app and helping
+                founders bring bold ideas to life.
+            </p>
+            <div class="cta-group">
+                <a href="#work" class="btn btn-primary">See My Work</a>
+                <a href="#contact" class="btn btn-secondary">Let's Talk</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>5+</h3>
+                    <p>Years Shipping</p>
+                </div>
+                <div class="stat-item">
+                    <h3>3</h3>
+                    <p>Products Live</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10K+</h3>
+                    <p>Users Served</p>
+                </div>
+                <div class="stat-item">
+                    <h3>$500K</h3>
+                    <p>Revenue</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="content-section" id="about">
+        <div class="container narrow">
+            <h2>About</h2>
+            <p>
+                I'm not your typical engineer. I'm a builder who ships products,
+                grows businesses, and solves real problems for real people.
+            </p>
+            <p>
+                After years in tech, I'm now focused on building my own app
+                while helping other founders navigate the chaos of early-stage
+                product development. I believe in shipping fast, learning faster,
+                and never settling for mediocrity.
+            </p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="content-section" id="work">
+        <div class="container">
+            <h2>Work</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>Current Project</h3>
+                    <p>
+                        Building a platform that changes how teams work together.
+                        In beta with 500+ users and growing fast.
+                    </p>
+                    <span class="project-tag">SaaS</span>
+                    <span class="project-tag">Live</span>
+                    <span class="project-tag">Growing</span>
+                </div>
+                <div class="project-card">
+                    <h3>Last Exit</h3>
+                    <p>
+                        Took a product from $0 to $500K ARR. Acquired by TechCorp
+                        in 2024. Learned a ton.
+                    </p>
+                    <span class="project-tag">B2B</span>
+                    <span class="project-tag">Acquired</span>
+                </div>
+                <div class="project-card">
+                    <h3>Open Source</h3>
+                    <p>
+                        Created tools used by 10,000+ developers. Active maintainer
+                        and community builder.
+                    </p>
+                    <span class="project-tag">OSS</span>
+                    <span class="project-tag">10K+ Users</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 YourName · Building products that matter</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Switcher
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const html = document.documentElement;
+
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.getAttribute('data-theme');
+
+                // Update active state
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Apply theme
+                html.setAttribute('data-theme', theme);
+
+                // Save preference
+                localStorage.setItem('theme-preview-bold', theme);
+            });
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme-preview-bold');
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            themeButtons.forEach(btn => {
+                if (btn.getAttribute('data-theme') === savedTheme) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
