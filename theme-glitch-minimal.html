@@ -330,25 +330,25 @@
         <div class="control-group">
             <div class="control-label">
                 <span>glitch speed</span>
-                <span id="speed-value">50ms</span>
+                <span id="speed-value">100ms</span>
             </div>
-            <input type="range" class="control-input" id="glitch-speed" min="30" max="200" value="50" step="10">
+            <input type="range" class="control-input" id="glitch-speed" min="30" max="200" value="100" step="10">
         </div>
 
         <div class="control-group">
             <div class="control-label">
                 <span>glitch duration</span>
-                <span id="duration-value">300ms</span>
+                <span id="duration-value">1000ms</span>
             </div>
-            <input type="range" class="control-input" id="glitch-duration" min="200" max="1000" value="300" step="50">
+            <input type="range" class="control-input" id="glitch-duration" min="200" max="1000" value="1000" step="50">
         </div>
 
         <div class="control-group">
             <div class="control-label">
                 <span>display time</span>
-                <span id="display-value">3s</span>
+                <span id="display-value">5s</span>
             </div>
-            <input type="range" class="control-input" id="display-time" min="2000" max="8000" value="3000" step="500">
+            <input type="range" class="control-input" id="display-time" min="2000" max="8000" value="5000" step="500">
         </div>
     </div>
 
@@ -457,9 +457,9 @@
         const glitchElement = document.querySelector('.glitch-text');
 
         // Default settings
-        let glitchSpeed = 50;
-        let glitchDuration = 300;
-        let displayTime = 3000;
+        let glitchSpeed = 100;
+        let glitchDuration = 1000;
+        let displayTime = 5000;
         let rotationInterval;
 
         function rotateRole() {
