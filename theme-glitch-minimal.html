@@ -239,67 +239,6 @@
             opacity: 0.3;
         }
 
-        /* Glitch Controls */
-        .glitch-controls {
-            position: fixed;
-            bottom: 40px;
-            right: 60px;
-            z-index: 10000;
-            background: var(--bg);
-            border: 1px solid var(--text);
-            padding: 20px;
-            min-width: 280px;
-        }
-
-        .control-title {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.4;
-            margin-bottom: 20px;
-        }
-
-        .control-group {
-            margin-bottom: 16px;
-        }
-
-        .control-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0.6;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .control-input {
-            width: 100%;
-            height: 2px;
-            background: var(--text);
-            opacity: 0.2;
-            -webkit-appearance: none;
-            appearance: none;
-            outline: none;
-        }
-
-        .control-input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 12px;
-            height: 12px;
-            background: var(--text);
-            cursor: pointer;
-        }
-
-        .control-input::-moz-range-thumb {
-            width: 12px;
-            height: 12px;
-            background: var(--text);
-            cursor: pointer;
-            border: none;
-        }
-
         @media (max-width: 768px) {
             header, .hero, .section {
                 padding-left: 24px;
@@ -309,48 +248,12 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
-
-            .glitch-controls {
-                bottom: 20px;
-                right: 20px;
-                left: 20px;
-                min-width: auto;
-            }
         }
     </style>
 </head>
 <body>
     <!-- Custom Cursor -->
     <div id="cursor"></div>
-
-    <!-- Glitch Controls -->
-    <div class="glitch-controls">
-        <div class="control-title">glitch settings</div>
-
-        <div class="control-group">
-            <div class="control-label">
-                <span>glitch speed</span>
-                <span id="speed-value">100ms</span>
-            </div>
-            <input type="range" class="control-input" id="glitch-speed" min="30" max="200" value="100" step="10">
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                <span>glitch duration</span>
-                <span id="duration-value">1000ms</span>
-            </div>
-            <input type="range" class="control-input" id="glitch-duration" min="200" max="1000" value="1000" step="50">
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                <span>display time</span>
-                <span id="display-value">5s</span>
-            </div>
-            <input type="range" class="control-input" id="display-time" min="2000" max="8000" value="5000" step="500">
-        </div>
-    </div>
 
     <!-- Header -->
     <header>
@@ -451,16 +354,10 @@
     </footer>
 
     <script>
-        // Glitch text rotation with configurable settings
+        // Glitch text rotation
         const roles = ['[ ENGINEER ]', '[ BUILDER ]', '[ FOUNDER ]', '[ PROGRAMMER ]', '[ MAKER ]'];
         let currentRole = 0;
         const glitchElement = document.querySelector('.glitch-text');
-
-        // Default settings
-        let glitchSpeed = 100;
-        let glitchDuration = 1000;
-        let displayTime = 5000;
-        let rotationInterval;
 
         function rotateRole() {
             // Glitch effect
@@ -471,23 +368,18 @@
                     glitched += chars[Math.floor(Math.random() * chars.length)];
                 }
                 glitchElement.textContent = glitched;
-            }, glitchSpeed);
+            }, 100);
 
             // Stop glitch and show next role
             setTimeout(() => {
                 clearInterval(glitchInterval);
                 currentRole = (currentRole + 1) % roles.length;
                 glitchElement.textContent = roles[currentRole];
-            }, glitchDuration);
+            }, 1000);
         }
 
-        // Start rotation
-        function startRotation() {
-            if (rotationInterval) clearInterval(rotationInterval);
-            rotationInterval = setInterval(rotateRole, displayTime);
-        }
-
-        startRotation();
+        // Rotate every 5 seconds
+        setInterval(rotateRole, 5000);
 
         // Custom cursor
         const cursor = document.getElementById('cursor');
@@ -550,57 +442,6 @@
                 cursor.style.transform = 'scale(1)';
             });
         });
-
-        // Glitch controls
-        const speedInput = document.getElementById('glitch-speed');
-        const durationInput = document.getElementById('glitch-duration');
-        const displayInput = document.getElementById('display-time');
-        const speedValue = document.getElementById('speed-value');
-        const durationValue = document.getElementById('duration-value');
-        const displayValue = document.getElementById('display-value');
-
-        speedInput.addEventListener('input', (e) => {
-            glitchSpeed = parseInt(e.target.value);
-            speedValue.textContent = glitchSpeed + 'ms';
-            localStorage.setItem('glitchSpeed', glitchSpeed);
-        });
-
-        durationInput.addEventListener('input', (e) => {
-            glitchDuration = parseInt(e.target.value);
-            durationValue.textContent = glitchDuration + 'ms';
-            localStorage.setItem('glitchDuration', glitchDuration);
-        });
-
-        displayInput.addEventListener('input', (e) => {
-            displayTime = parseInt(e.target.value);
-            displayValue.textContent = (displayTime / 1000) + 's';
-            localStorage.setItem('displayTime', displayTime);
-            startRotation();
-        });
-
-        // Load saved preferences
-        const savedSpeed = localStorage.getItem('glitchSpeed');
-        const savedDuration = localStorage.getItem('glitchDuration');
-        const savedDisplay = localStorage.getItem('displayTime');
-
-        if (savedSpeed) {
-            glitchSpeed = parseInt(savedSpeed);
-            speedInput.value = glitchSpeed;
-            speedValue.textContent = glitchSpeed + 'ms';
-        }
-
-        if (savedDuration) {
-            glitchDuration = parseInt(savedDuration);
-            durationInput.value = glitchDuration;
-            durationValue.textContent = glitchDuration + 'ms';
-        }
-
-        if (savedDisplay) {
-            displayTime = parseInt(savedDisplay);
-            displayInput.value = displayTime;
-            displayValue.textContent = (displayTime / 1000) + 's';
-            startRotation();
-        }
     </script>
 </body>
 </html>
