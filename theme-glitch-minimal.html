@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subhaprada Chand</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f5f5f0;
+            --text: #1a1a1a;
+            --trail: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--trail);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+        }
+
+        /* Cursor Trail */
+        .trail {
+            position: fixed;
+            width: 2px;
+            height: 40px;
+            background: var(--trail);
+            pointer-events: none;
+            z-index: 9998;
+            transform-origin: top center;
+        }
+
+        /* Header */
+        header {
+            padding: 40px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        nav a:hover {
+            opacity: 0.5;
+        }
+
+        nav span {
+            opacity: 0.3;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 120px 60px;
+            max-width: 1400px;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 6vw, 80px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 60px;
+        }
+
+        .glitch-text {
+            display: inline-block;
+            position: relative;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(20px, 2.5vw, 32px);
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 900px;
+            margin-bottom: 40px;
+        }
+
+        .subtitle .strikethrough {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        .scroll-indicator {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 80px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 60px;
+            max-width: 1400px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 60px;
+            font-weight: 600;
+            opacity: 0.5;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 60px;
+        }
+
+        .project {
+            border-top: 1px solid var(--text);
+            padding-top: 24px;
+        }
+
+        .project-number {
+            font-size: 12px;
+            opacity: 0.4;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .project h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .project p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+
+        .project-meta {
+            font-size: 14px;
+            opacity: 0.5;
+            display: flex;
+            gap: 16px;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            border-top: 1px solid var(--text);
+            padding-top: 16px;
+        }
+
+        .contact-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.4;
+            margin-bottom: 12px;
+        }
+
+        .contact-value {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .contact-value a {
+            color: var(--text);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .contact-value a:hover {
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 60px 40px;
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.3;
+        }
+
+        /* Geometric accent */
+        .accent-line {
+            position: absolute;
+            width: 200px;
+            height: 2px;
+            background: var(--text);
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
+            header, .hero, .section {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">subhaprada chand</div>
+        <nav>
+            <a href="#work">i made these, be impressed</a>
+            <span>/</span>
+            <a href="#experiments">some experiments</a>
+            <span>/</span>
+            <a href="#contact">let's be friends</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>
+            SUBHAPRADA CHAND <span class="glitch-text">[ ENGINEER ]</span>
+        </h1>
+        <div class="subtitle">
+            <p>> BUILDING PRODUCTS FOR THE INTERNET, CURRENTLY AT SHARECHAT. PREVIOUSLY RIPPLING AND RAZORPAY. MADE TUBETROTTER ON THE SIDE—10,000+ PEOPLE USE IT. I BUILD <span class="strikethrough">OVERENGINEERED</span> JAVASCRIPT PROJECTS.</p>
+        </div>
+        <div class="scroll-indicator">SCROLL DOWN_</div>
+    </div>
+
+    <!-- Projects Section -->
+    <div class="section" id="work">
+        <div class="section-title">[ SELECTED WORK ]</div>
+        <div class="projects-grid">
+            <div class="project">
+                <div class="project-number">001</div>
+                <h3>TUBETROTTER</h3>
+                <p>Interactive map showcasing YouTube travel vlogs. Built for fun, now used by 10,000+ people who apparently like clicking on maps.</p>
+                <div class="project-meta">
+                    <span>REACT</span>
+                    <span>NODE.JS</span>
+                    <span>MONGODB</span>
+                    <span>2024</span>
+                </div>
+            </div>
+
+            <div class="project">
+                <div class="project-number">002</div>
+                <h3>SHARECHAT ENGINEERING</h3>
+                <p>Building features for India's largest social media platform. Scaling systems, optimizing performance, the usual startup things.</p>
+                <div class="project-meta">
+                    <span>GO</span>
+                    <span>DISTRIBUTED SYSTEMS</span>
+                    <span>2023—NOW</span>
+                </div>
+            </div>
+
+            <div class="project">
+                <div class="project-number">003</div>
+                <h3>RIPPLING PLATFORM</h3>
+                <p>Built data import tools and testing infrastructure. Learned that good tests are harder than good code.</p>
+                <div class="project-meta">
+                    <span>PYTHON</span>
+                    <span>TESTING</span>
+                    <span>2021—2023</span>
+                </div>
+            </div>
+
+            <div class="project">
+                <div class="project-number">004</div>
+                <h3>RAZORPAY PAYMENTS</h3>
+                <p>Payment systems at scale. Built things that move money around. Everything worked, mostly.</p>
+                <div class="project-meta">
+                    <span>JAVA</span>
+                    <span>PAYMENTS</span>
+                    <span>2019—2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="section" id="contact">
+        <div class="section-title">[ GET IN TOUCH ]</div>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-label">TWITTER</div>
+                <div class="contact-value"><a href="https://twitter.com/shooooobh">@shooooobh</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-label">EMAIL</div>
+                <div class="contact-value"><a href="mailto:subhapradachand@gmail.com">subhapradachand@gmail.com</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-label">WEB</div>
+                <div class="contact-value"><a href="https://www.tubetrotter.live">tubetrotter.live</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>BUILT WITH <span class="strikethrough">EXCESSIVE</span> CARE / 2024</p>
+    </footer>
+
+    <script>
+        // Glitch text rotation
+        const roles = ['[ ENGINEER ]', '[ BUILDER ]', '[ FOUNDER ]', '[ PROGRAMMER ]', '[ MAKER ]'];
+        let currentRole = 0;
+        const glitchElement = document.querySelector('.glitch-text');
+
+        function rotateRole() {
+            // Glitch effect
+            let glitchInterval = setInterval(() => {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[]';
+                let glitched = '';
+                for (let i = 0; i < roles[currentRole].length; i++) {
+                    glitched += chars[Math.floor(Math.random() * chars.length)];
+                }
+                glitchElement.textContent = glitched;
+            }, 50);
+
+            // Stop glitch and show next role
+            setTimeout(() => {
+                clearInterval(glitchInterval);
+                currentRole = (currentRole + 1) % roles.length;
+                glitchElement.textContent = roles[currentRole];
+            }, 300);
+        }
+
+        // Rotate every 3 seconds
+        setInterval(rotateRole, 3000);
+
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor trail
+        const trailLength = 20;
+        const trails = [];
+        const positions = [];
+
+        for (let i = 0; i < trailLength; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            document.body.appendChild(trail);
+            trails.push(trail);
+            positions.push({ x: 0, y: 0 });
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            positions.unshift({ x: e.clientX, y: e.clientY });
+            positions.pop();
+
+            trails.forEach((trail, index) => {
+                const pos = positions[index];
+                const nextPos = positions[index + 1] || pos;
+
+                const dx = nextPos.x - pos.x;
+                const dy = nextPos.y - pos.y;
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+
+                trail.style.left = pos.x + 'px';
+                trail.style.top = pos.y + 'px';
+                trail.style.transform = `rotate(${angle}deg)`;
+                trail.style.opacity = 1 - (index / trailLength) * 0.8;
+            });
+        });
+
+        // Hover effects for links
+        const links = document.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+            });
+            link.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
