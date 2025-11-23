@@ -239,6 +239,83 @@
             opacity: 0.3;
         }
 
+        /* Cursor Selector */
+        .cursor-selector {
+            position: fixed;
+            bottom: 40px;
+            right: 60px;
+            z-index: 10000;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .cursor-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.4;
+            margin-right: 8px;
+        }
+
+        .cursor-option {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--text);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 10px;
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.3;
+        }
+
+        .cursor-option:hover {
+            opacity: 0.7;
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .cursor-option.active {
+            opacity: 1;
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        /* Cursor variations */
+        body.cursor-default {
+            cursor: auto;
+        }
+
+        body.cursor-default #cursor,
+        body.cursor-default .trail {
+            display: none;
+        }
+
+        body.cursor-dot #cursor {
+            width: 8px;
+            height: 8px;
+            border: none;
+            background: var(--trail);
+            border-radius: 50%;
+        }
+
+        body.cursor-dot .trail {
+            display: none;
+        }
+
+        body.cursor-circle .trail {
+            display: none;
+        }
+
+        body.cursor-trail #cursor {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             header, .hero, .section {
                 padding-left: 24px;
@@ -248,12 +325,27 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+
+            .cursor-selector {
+                bottom: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Custom Cursor -->
     <div id="cursor"></div>
+
+    <!-- Cursor Selector -->
+    <div class="cursor-selector">
+        <div class="cursor-label">cursor</div>
+        <button class="cursor-option" data-cursor="default" title="Default">A</button>
+        <button class="cursor-option" data-cursor="dot" title="Dot">•</button>
+        <button class="cursor-option" data-cursor="circle" title="Circle">○</button>
+        <button class="cursor-option" data-cursor="trail" title="Trail">—</button>
+        <button class="cursor-option active" data-cursor="full" title="Full">⊕</button>
+    </div>
 
     <!-- Header -->
     <header>
@@ -442,6 +534,41 @@
                 cursor.style.transform = 'scale(1)';
             });
         });
+
+        // Cursor selector
+        const cursorOptions = document.querySelectorAll('.cursor-option');
+        cursorOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const cursorType = option.dataset.cursor;
+
+                // Remove all cursor classes
+                document.body.classList.remove('cursor-default', 'cursor-dot', 'cursor-circle', 'cursor-trail', 'cursor-full');
+
+                // Add selected cursor class
+                if (cursorType !== 'full') {
+                    document.body.classList.add(`cursor-${cursorType}`);
+                }
+
+                // Update active state
+                cursorOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+
+                // Store preference
+                localStorage.setItem('cursorType', cursorType);
+            });
+        });
+
+        // Load saved cursor preference
+        const savedCursor = localStorage.getItem('cursorType');
+        if (savedCursor && savedCursor !== 'full') {
+            document.body.classList.add(`cursor-${savedCursor}`);
+            cursorOptions.forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.dataset.cursor === savedCursor) {
+                    opt.classList.add('active');
+                }
+            });
+        }
     </script>
 </body>
 </html>
