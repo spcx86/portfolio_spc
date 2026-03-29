@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blueprint Theme - Builder Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Roboto+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blueprint-bg: #0c2340;
+            --blueprint-blue: #1e4d7b;
+            --blueprint-line: #2a5f8f;
+            --blueprint-text: #ffffff;
+            --blueprint-secondary: #8fb3d5;
+            --blueprint-accent: #00d4ff;
+            --grid-size: 20px;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: var(--blueprint-bg);
+            color: var(--blueprint-text);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Blueprint Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px);
+            background-size: var(--grid-size) var(--grid-size);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Corner Measurement Marks */
+        .corner-marks {
+            position: fixed;
+            inset: 20px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .corner-marks::before,
+        .corner-marks::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--blueprint-accent);
+        }
+
+        .corner-marks::before {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-marks::after {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Technical Annotations */
+        .annotation {
+            position: fixed;
+            font-size: 11px;
+            color: var(--blueprint-accent);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 1;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .annotation::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--blueprint-accent);
+        }
+
+        .annotation.top-left {
+            top: 60px;
+            left: 40px;
+        }
+
+        .annotation.top-right {
+            top: 60px;
+            right: 40px;
+            flex-direction: row-reverse;
+        }
+
+        .annotation.bottom-left {
+            bottom: 40px;
+            left: 40px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header with Drawing Title Block */
+        .title-block {
+            border: 2px solid var(--blueprint-accent);
+            padding: 24px 32px;
+            margin-bottom: 60px;
+            position: relative;
+            background: rgba(12, 35, 64, 0.8);
+        }
+
+        .title-block::before {
+            content: 'PORTFOLIO SPECIFICATION';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--blueprint-bg);
+            padding: 0 8px;
+            font-size: 10px;
+            color: var(--blueprint-accent);
+            letter-spacing: 2px;
+        }
+
+        .title-block h1 {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: var(--blueprint-text);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .title-block .subtitle {
+            font-size: 14px;
+            color: var(--blueprint-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .drawing-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--blueprint-line);
+            font-size: 11px;
+        }
+
+        .drawing-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .drawing-info-item .label {
+            color: var(--blueprint-accent);
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .drawing-info-item .value {
+            color: var(--blueprint-text);
+        }
+
+        /* Section Headers with Dimension Lines */
+        .section {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 32px;
+            gap: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--blueprint-accent);
+            font-weight: 400;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--blueprint-line);
+            position: relative;
+        }
+
+        .section-number {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--blueprint-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--blueprint-accent);
+            font-weight: 600;
+        }
+
+        /* Stats Grid - Technical Specifications */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .spec-box {
+            border: 2px solid var(--blueprint-line);
+            padding: 24px;
+            position: relative;
+            background: rgba(30, 77, 123, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .spec-box:hover {
+            border-color: var(--blueprint-accent);
+            background: rgba(30, 77, 123, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .spec-box::before {
+            content: attr(data-ref);
+            position: absolute;
+            top: -8px;
+            left: 12px;
+            background: var(--blueprint-bg);
+            padding: 0 6px;
+            font-size: 9px;
+            color: var(--blueprint-accent);
+            letter-spacing: 1px;
+        }
+
+        .spec-value {
+            font-size: 48px;
+            font-weight: 300;
+            color: var(--blueprint-accent);
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .spec-label {
+            font-size: 12px;
+            color: var(--blueprint-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Project Cards - Drawing Sheets */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .project-card {
+            border: 2px solid var(--blueprint-line);
+            position: relative;
+            background: rgba(30, 77, 123, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--blueprint-accent);
+            background: rgba(30, 77, 123, 0.2);
+        }
+
+        .project-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--blueprint-line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(12, 35, 64, 0.5);
+        }
+
+        .project-id {
+            font-size: 10px;
+            color: var(--blueprint-accent);
+            letter-spacing: 1px;
+        }
+
+        .project-status {
+            font-size: 9px;
+            padding: 4px 8px;
+            border: 1px solid var(--blueprint-accent);
+            color: var(--blueprint-accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-content {
+            padding: 24px 20px;
+        }
+
+        .project-card h3 {
+            font-size: 20px;
+            color: var(--blueprint-text);
+            margin-bottom: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .project-card p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--blueprint-secondary);
+            margin-bottom: 16px;
+        }
+
+        .project-dimensions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .dimension-tag {
+            padding: 6px 12px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--blueprint-accent);
+            color: var(--blueprint-accent);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* CTA Buttons - Action Annotations */
+        .cta-section {
+            margin: 60px 0;
+            padding: 40px;
+            border: 2px dashed var(--blueprint-line);
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-section::before {
+            content: 'ACTION REQUIRED';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--blueprint-bg);
+            padding: 0 12px;
+            font-size: 10px;
+            color: var(--blueprint-accent);
+            letter-spacing: 2px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            background: transparent;
+            border: 2px solid var(--blueprint-accent);
+            color: var(--blueprint-accent);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Roboto Mono', monospace;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+        }
+
+        .btn:hover {
+            background: var(--blueprint-accent);
+            color: var(--blueprint-bg);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn::before,
+        .btn::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid var(--blueprint-accent);
+        }
+
+        .btn::before {
+            top: -4px;
+            left: -4px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .btn::after {
+            bottom: -4px;
+            right: -4px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Description Text */
+        .description {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--blueprint-secondary);
+            margin-bottom: 20px;
+        }
+
+        /* Revision History Footer */
+        .revision-block {
+            margin-top: 100px;
+            padding: 20px;
+            border: 1px solid var(--blueprint-line);
+            background: rgba(12, 35, 64, 0.5);
+            font-size: 11px;
+        }
+
+        .revision-block h4 {
+            color: var(--blueprint-accent);
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .revision-table {
+            display: grid;
+            grid-template-columns: 80px 1fr 150px;
+            gap: 12px 16px;
+            color: var(--blueprint-secondary);
+        }
+
+        .revision-table .header {
+            color: var(--blueprint-accent);
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 60px 20px 40px;
+            }
+
+            .title-block h1 {
+                font-size: 32px;
+            }
+
+            .annotation {
+                display: none;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-number {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+        }
+
+        /* Sketch-like elements */
+        .sketch-circle {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--blueprint-accent);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .sc-1 { top: 20%; left: 5%; }
+        .sc-2 { top: 40%; right: 8%; }
+        .sc-3 { bottom: 25%; left: 10%; }
+    </style>
+</head>
+<body>
+
+    <!-- Corner Measurement Marks -->
+    <div class="corner-marks"></div>
+
+    <!-- Technical Annotations -->
+    <div class="annotation top-left">SCALE: 1:1</div>
+    <div class="annotation top-right">REVISION: v2.0</div>
+    <div class="annotation bottom-left">DRAWN BY: YOURNAME</div>
+
+    <!-- Sketch Circles -->
+    <div class="sketch-circle sc-1"></div>
+    <div class="sketch-circle sc-2"></div>
+    <div class="sketch-circle sc-3"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Title Block -->
+        <div class="title-block">
+            <h1>Your Name</h1>
+            <div class="subtitle">Founder & Product Builder</div>
+
+            <div class="drawing-info">
+                <div class="drawing-info-item">
+                    <div class="label">Project Type</div>
+                    <div class="value">Portfolio</div>
+                </div>
+                <div class="drawing-info-item">
+                    <div class="label">Status</div>
+                    <div class="value">Active Development</div>
+                </div>
+                <div class="drawing-info-item">
+                    <div class="label">Date</div>
+                    <div class="value">2024</div>
+                </div>
+                <div class="drawing-info-item">
+                    <div class="label">Drawing No.</div>
+                    <div class="value">PORT-001</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <h2>Overview</h2>
+            </div>
+
+            <p class="description">
+                I design and build products from the ground up. Every feature is carefully
+                architected, every interaction thoughtfully planned. Currently constructing
+                my own app while helping other founders blueprint their visions into reality.
+            </p>
+
+            <div class="cta-section">
+                <button class="btn">View Complete Specifications</button>
+            </div>
+        </section>
+
+        <!-- Technical Specifications -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <h2>Specifications</h2>
+            </div>
+
+            <div class="specs-grid">
+                <div class="spec-box" data-ref="SPEC-01">
+                    <div class="spec-value">5+</div>
+                    <div class="spec-label">Years Building</div>
+                </div>
+                <div class="spec-box" data-ref="SPEC-02">
+                    <div class="spec-value">3</div>
+                    <div class="spec-label">Products Launched</div>
+                </div>
+                <div class="spec-box" data-ref="SPEC-03">
+                    <div class="spec-value">10K+</div>
+                    <div class="spec-label">Users Impacted</div>
+                </div>
+                <div class="spec-box" data-ref="SPEC-04">
+                    <div class="spec-value">$500K</div>
+                    <div class="spec-label">Revenue Generated</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <h2>Project Drawings</h2>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-id">DWG-A01</div>
+                        <div class="project-status">In Progress</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Current Build</h3>
+                        <p>
+                            Platform architecture designed for team collaboration.
+                            Currently in construction phase with 500+ beta users testing
+                            structural integrity.
+                        </p>
+                        <div class="project-dimensions">
+                            <span class="dimension-tag">SaaS</span>
+                            <span class="dimension-tag">Live</span>
+                            <span class="dimension-tag">Growing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-id">DWG-A02</div>
+                        <div class="project-status">Completed</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Previous Build</h3>
+                        <p>
+                            Constructed from foundation to $500K ARR. Full project
+                            documentation transferred to TechCorp upon acquisition in 2024.
+                        </p>
+                        <div class="project-dimensions">
+                            <span class="dimension-tag">B2B</span>
+                            <span class="dimension-tag">Exit</span>
+                            <span class="dimension-tag">Acquired</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-id">DWG-A03</div>
+                        <div class="project-status">Active</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Open Tooling</h3>
+                        <p>
+                            Developer tools and frameworks built for community use.
+                            Maintained specifications serve 10,000+ builders worldwide.
+                        </p>
+                        <div class="project-dimensions">
+                            <span class="dimension-tag">OSS</span>
+                            <span class="dimension-tag">Community</span>
+                            <span class="dimension-tag">10K+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <h2>Design Philosophy</h2>
+            </div>
+
+            <p class="description">
+                Every product starts with a blueprint. I believe in careful planning,
+                precise execution, and continuous iteration. My approach combines technical
+                architecture with user-centered design—building not just functional products,
+                but experiences that solve real problems.
+            </p>
+
+            <p class="description">
+                From initial sketches to final implementation, I oversee every detail.
+                Ship fast, measure carefully, refine constantly.
+            </p>
+        </section>
+
+        <!-- Revision History -->
+        <div class="revision-block">
+            <h4>Revision History</h4>
+            <div class="revision-table">
+                <div class="header">Rev</div>
+                <div class="header">Description</div>
+                <div class="header">Date</div>
+
+                <div>v2.0</div>
+                <div>Major portfolio rebuild - new projects added</div>
+                <div>2024-01-15</div>
+
+                <div>v1.5</div>
+                <div>Added case studies and metrics</div>
+                <div>2023-09-20</div>
+
+                <div>v1.0</div>
+                <div>Initial portfolio construction</div>
+                <div>2023-01-10</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

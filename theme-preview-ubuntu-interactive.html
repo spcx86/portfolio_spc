@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubuntu OS Interactive - Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ==================== THEME 1: UBUNTU STANDARD ==================== */
+        html[data-theme="ubuntu-standard"] {
+            --bg-base: #f0f0f0;
+            --bg-desktop: linear-gradient(135deg, #4e2a84 0%, #772953 100%);
+            --bg-window: #ffffff;
+            --bg-elevated: #fafafa;
+            --bg-sidebar: #2c2c2c;
+            --text-primary: #2c2c2c;
+            --text-secondary: #5c5c5c;
+            --text-muted: #8c8c8c;
+            --accent-primary: #E95420;
+            --accent-secondary: #772953;
+            --accent-hover: #d14315;
+            --border-color: #d4d4d4;
+            --titlebar-bg: #2c2c2c;
+            --titlebar-text: #ffffff;
+            --window-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ==================== THEME 2: UBUNTU DARK ==================== */
+        html[data-theme="ubuntu-dark"] {
+            --bg-base: #1e1e1e;
+            --bg-desktop: linear-gradient(135deg, #1e1e1e 0%, #2c2c2c 100%);
+            --bg-window: #2c2c2c;
+            --bg-elevated: #3c3c3c;
+            --bg-sidebar: #1a1a1a;
+            --text-primary: #f0f0f0;
+            --text-secondary: #c0c0c0;
+            --text-muted: #8c8c8c;
+            --accent-primary: #E95420;
+            --accent-secondary: #ff6a3d;
+            --accent-hover: #ff7850;
+            --border-color: #404040;
+            --titlebar-bg: #1a1a1a;
+            --titlebar-text: #f0f0f0;
+            --window-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ==================== THEME 3: UBUNTU TERMINAL ==================== */
+        html[data-theme="ubuntu-terminal"] {
+            --bg-base: #300a24;
+            --bg-desktop: #300a24;
+            --bg-window: #300a24;
+            --bg-elevated: #3f0e33;
+            --bg-sidebar: #1a0614;
+            --text-primary: #ffffff;
+            --text-secondary: #d0d0d0;
+            --text-muted: #a0a0a0;
+            --accent-primary: #E95420;
+            --accent-secondary: #00ff00;
+            --accent-hover: #ff6a3d;
+            --border-color: #5c1e4a;
+            --titlebar-bg: #2c001e;
+            --titlebar-text: #ffffff;
+            --window-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            min-height: 100vh;
+            background: var(--bg-desktop);
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        html[data-theme="ubuntu-terminal"] body {
+            font-family: 'Ubuntu Mono', 'Courier New', monospace;
+        }
+
+        /* Desktop Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        /* Window Container */
+        .window {
+            position: absolute;
+            background: var(--bg-window);
+            border-radius: 10px;
+            box-shadow: var(--window-shadow);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .window.minimized {
+            transform: scale(0.1) translateY(100vh);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .window.active {
+            z-index: 100;
+        }
+
+        /* Window positioning */
+        .window[data-window="home"] {
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            min-height: 600px;
+        }
+
+        .window[data-window="projects"] {
+            top: 80px;
+            left: calc(50% + 30px);
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 1000px;
+            min-height: 500px;
+        }
+
+        .window[data-window="blog"] {
+            top: 110px;
+            left: calc(50% - 30px);
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 900px;
+            min-height: 450px;
+        }
+
+        .window[data-window="settings"] {
+            top: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 75%;
+            max-width: 700px;
+            min-height: 400px;
+        }
+
+        /* Window Title Bar */
+        .window-titlebar {
+            background: var(--titlebar-bg);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            cursor: move;
+        }
+
+        .window-titlebar:active {
+            cursor: grabbing;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .window-btn.close {
+            background: #fc5753;
+        }
+
+        .window-btn.minimize {
+            background: #fdbc40;
+        }
+
+        .window-btn.maximize {
+            background: #34c749;
+        }
+
+        .window-btn:hover {
+            transform: scale(1.15);
+            filter: brightness(1.2);
+        }
+
+        .window-title {
+            color: var(--titlebar-text);
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
+        }
+
+        .window-menu {
+            width: 60px;
+        }
+
+        /* Window Content */
+        .window-content {
+            padding: 40px;
+            overflow-y: auto;
+            max-height: calc(100vh - 140px);
+        }
+
+        /* Sidebar Dock */
+        .sidebar-dock {
+            background: var(--bg-sidebar);
+            width: 70px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            bottom: 20px;
+            border-radius: 10px;
+            box-shadow: var(--window-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 16px;
+            z-index: 999;
+        }
+
+        .dock-item {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .dock-item:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(233, 84, 32, 0.5);
+        }
+
+        .dock-item.active::after {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
+
+        /* Theme Selector */
+        .theme-selector {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--bg-window);
+            border-radius: 8px;
+            box-shadow: var(--window-shadow);
+            overflow: hidden;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-selector-header {
+            background: var(--titlebar-bg);
+            color: var(--titlebar-text);
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-selector-header::before {
+            content: '⚙️';
+            font-size: 14px;
+        }
+
+        .theme-buttons {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .theme-btn {
+            padding: 10px 16px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            text-align: left;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .theme-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .theme-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        /* Content Styling */
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            border-bottom: 3px solid var(--accent-primary);
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-block;
+            text-decoration: none;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 84, 32, 0.3);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .project-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar-dock {
+                width: 60px;
+            }
+
+            .window {
+                width: 95% !important;
+                max-width: none !important;
+                left: 50% !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-dock {
+                display: none;
+            }
+
+            .window-content {
+                padding: 20px;
+            }
+
+            .theme-selector {
+                top: 10px;
+                right: 10px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="ubuntu-standard">
+
+    <!-- Sidebar Dock -->
+    <div class="sidebar-dock">
+        <div class="dock-item active" data-window="home" title="Home">🏠</div>
+        <div class="dock-item" data-window="projects" title="Projects">💼</div>
+        <div class="dock-item" data-window="blog" title="Blog">✍️</div>
+        <div style="flex: 1;"></div>
+        <div class="dock-item" data-window="settings" title="Settings">⚙️</div>
+    </div>
+
+    <!-- Theme Selector -->
+    <div class="theme-selector">
+        <div class="theme-selector-header">Themes</div>
+        <div class="theme-buttons">
+            <button class="theme-btn active" data-theme="ubuntu-standard">Ubuntu Standard</button>
+            <button class="theme-btn" data-theme="ubuntu-dark">Ubuntu Dark</button>
+            <button class="theme-btn" data-theme="ubuntu-terminal">Ubuntu Terminal</button>
+        </div>
+    </div>
+
+    <!-- Home Window -->
+    <div class="window active" data-window="home">
+        <div class="window-titlebar">
+            <div class="window-controls">
+                <button class="window-btn close" data-action="close"></button>
+                <button class="window-btn minimize" data-action="minimize"></button>
+                <button class="window-btn maximize" data-action="maximize"></button>
+            </div>
+            <div class="window-title">Home - Portfolio</div>
+            <div class="window-menu"></div>
+        </div>
+        <div class="window-content">
+            <h1>👋 Welcome to My Portfolio</h1>
+            <p style="font-size: 20px; color: var(--accent-primary); font-weight: 600; margin-bottom: 24px;">
+                Founder & Product Builder
+            </p>
+            <p>
+                I create technology that solves real problems. Currently building
+                my own app and helping founders bring their visions to life through
+                clean code and solid product thinking.
+            </p>
+            <p>
+                Click the icons in the left dock to explore different sections!
+            </p>
+            <div style="margin-top: 32px;">
+                <button class="btn" onclick="document.querySelector('[data-window=projects]').click()">
+                    View My Projects →
+                </button>
+            </div>
+
+            <div style="margin-top: 48px; padding: 32px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--border-color);">
+                <h2 style="border: none; display: block; margin-bottom: 24px;">Quick Stats</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; text-align: center;">
+                    <div>
+                        <div style="font-size: 48px; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">5+</div>
+                        <div style="color: var(--text-muted); font-size: 14px;">Years Building</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 48px; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">3</div>
+                        <div style="color: var(--text-muted); font-size: 14px;">Products Launched</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 48px; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">10K+</div>
+                        <div style="color: var(--text-muted); font-size: 14px;">Users Impacted</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 48px; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">$500K</div>
+                        <div style="color: var(--text-muted); font-size: 14px;">Revenue Generated</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Window -->
+    <div class="window minimized" data-window="projects">
+        <div class="window-titlebar">
+            <div class="window-controls">
+                <button class="window-btn close" data-action="close"></button>
+                <button class="window-btn minimize" data-action="minimize"></button>
+                <button class="window-btn maximize" data-action="maximize"></button>
+            </div>
+            <div class="window-title">Projects - My Work</div>
+            <div class="window-menu"></div>
+        </div>
+        <div class="window-content">
+            <h2>Current Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>🚀 MyApp (Stealth)</h3>
+                    <p>
+                        Building a platform that helps teams collaborate more effectively.
+                        Currently in beta with 500+ users.
+                    </p>
+                    <span class="tag">SaaS</span>
+                    <span class="tag">Product</span>
+                    <span class="tag">Live</span>
+                </div>
+                <div class="project-card">
+                    <h3>💰 Previous Product</h3>
+                    <p>
+                        Led product development from 0 to $500K ARR. Acquired by
+                        TechCorp in 2024.
+                    </p>
+                    <span class="tag">B2B</span>
+                    <span class="tag">Exit</span>
+                </div>
+                <div class="project-card">
+                    <h3>🛠️ Open Source Tools</h3>
+                    <p>
+                        Created developer tools used by 10,000+ developers worldwide.
+                        Active maintainer and community builder.
+                    </p>
+                    <span class="tag">OSS</span>
+                    <span class="tag">Community</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px;">
+                <h2>Tech Stack</h2>
+                <p>
+                    I build with modern technologies that help me ship fast and iterate quickly.
+                    My go-to stack includes React, Next.js, TypeScript, and PostgreSQL.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Window -->
+    <div class="window minimized" data-window="blog">
+        <div class="window-titlebar">
+            <div class="window-controls">
+                <button class="window-btn close" data-action="close"></button>
+                <button class="window-btn minimize" data-action="minimize"></button>
+                <button class="window-btn maximize" data-action="maximize"></button>
+            </div>
+            <div class="window-title">Blog - Writing</div>
+            <div class="window-menu"></div>
+        </div>
+        <div class="window-content">
+            <h2>Latest Writing</h2>
+            <div style="margin-top: 24px;">
+                <div style="padding: 24px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                    <h3>Building in Public: Lessons from 6 Months</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">March 15, 2024</p>
+                    <p>
+                        What I learned from sharing my startup journey online and how it
+                        helped me find my first 100 users.
+                    </p>
+                    <span class="tag">Startup</span>
+                    <span class="tag">Growth</span>
+                </div>
+
+                <div style="padding: 24px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                    <h3>From Engineer to Founder: The Mindset Shift</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">February 28, 2024</p>
+                    <p>
+                        How I transitioned from writing code to building products and
+                        what I wish I knew earlier.
+                    </p>
+                    <span class="tag">Career</span>
+                    <span class="tag">Product</span>
+                </div>
+
+                <div style="padding: 24px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--border-color);">
+                    <h3>Shipping Fast Without Breaking Things</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">January 10, 2024</p>
+                    <p>
+                        My framework for rapid iteration while maintaining quality and
+                        keeping technical debt under control.
+                    </p>
+                    <span class="tag">Engineering</span>
+                    <span class="tag">Best Practices</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Window -->
+    <div class="window minimized" data-window="settings">
+        <div class="window-titlebar">
+            <div class="window-controls">
+                <button class="window-btn close" data-action="close"></button>
+                <button class="window-btn minimize" data-action="minimize"></button>
+                <button class="window-btn maximize" data-action="maximize"></button>
+            </div>
+            <div class="window-title">Settings - Preferences</div>
+            <div class="window-menu"></div>
+        </div>
+        <div class="window-content">
+            <h2>Theme Settings</h2>
+            <p>
+                Choose your preferred theme from the selector in the top-right corner.
+                Your selection will be saved automatically.
+            </p>
+
+            <div style="margin-top: 32px;">
+                <h2>About This Portfolio</h2>
+                <p>
+                    This portfolio is designed to look like an Ubuntu desktop environment,
+                    complete with window management, a dock, and multiple workspaces.
+                </p>
+                <p>
+                    <strong>Features:</strong>
+                </p>
+                <ul style="margin-left: 24px; color: var(--text-secondary);">
+                    <li>Click dock icons to open/minimize windows</li>
+                    <li>Use window controls (close/minimize/maximize)</li>
+                    <li>Switch between different themes</li>
+                    <li>Fully responsive design</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 32px; padding: 24px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3>Get In Touch</h3>
+                <p style="margin-bottom: 16px;">
+                    Interested in working together? Let's connect!
+                </p>
+                <button class="btn">Contact Me</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Switcher
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const html = document.documentElement;
+
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.getAttribute('data-theme');
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('theme-ubuntu-interactive', theme);
+            });
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme-ubuntu-interactive');
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            themeButtons.forEach(btn => {
+                if (btn.getAttribute('data-theme') === savedTheme) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Window Management
+        const windows = document.querySelectorAll('.window');
+        const dockItems = document.querySelectorAll('.dock-item');
+
+        // Dock item click - toggle window
+        dockItems.forEach(item => {
+            const windowId = item.getAttribute('data-window');
+            if (!windowId) return;
+
+            item.addEventListener('click', () => {
+                const targetWindow = document.querySelector(`.window[data-window="${windowId}"]`);
+                if (!targetWindow) return;
+
+                // If window is minimized, open it
+                if (targetWindow.classList.contains('minimized')) {
+                    targetWindow.classList.remove('minimized');
+                    bringToFront(targetWindow);
+                    setActiveDockItem(item);
+                } else if (targetWindow.classList.contains('active')) {
+                    // If window is already active, minimize it
+                    targetWindow.classList.add('minimized');
+                    item.classList.remove('active');
+                } else {
+                    // If window is open but not active, bring to front
+                    bringToFront(targetWindow);
+                    setActiveDockItem(item);
+                }
+            });
+        });
+
+        // Window control buttons
+        document.querySelectorAll('.window-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.getAttribute('data-action');
+                const window = this.closest('.window');
+                const windowId = window.getAttribute('data-window');
+                const dockItem = document.querySelector(`.dock-item[data-window="${windowId}"]`);
+
+                if (action === 'close' || action === 'minimize') {
+                    window.classList.add('minimized');
+                    if (dockItem) dockItem.classList.remove('active');
+                }
+                // Note: maximize functionality could be added here
+            });
+        });
+
+        // Click on window to bring to front
+        windows.forEach(window => {
+            window.addEventListener('mousedown', () => {
+                if (!window.classList.contains('minimized')) {
+                    bringToFront(window);
+                }
+            });
+        });
+
+        function bringToFront(window) {
+            windows.forEach(w => w.classList.remove('active'));
+            window.classList.add('active');
+        }
+
+        function setActiveDockItem(item) {
+            dockItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+        }
+
+        // Initialize: Set first window as active
+        const firstWindow = document.querySelector('.window[data-window="home"]');
+        const firstDock = document.querySelector('.dock-item[data-window="home"]');
+        if (firstWindow) {
+            firstWindow.classList.remove('minimized');
+            firstWindow.classList.add('active');
+        }
+        if (firstDock) {
+            firstDock.classList.add('active');
+        }
+
+        // Window Dragging Functionality
+        let isDragging = false;
+        let currentWindow = null;
+        let startMouseX = 0;
+        let startMouseY = 0;
+        let startWindowX = 0;
+        let startWindowY = 0;
+
+        document.querySelectorAll('.window-titlebar').forEach(titlebar => {
+            titlebar.addEventListener('mousedown', function(e) {
+                // Don't drag if clicking on buttons
+                if (e.target.classList.contains('window-btn')) return;
+
+                isDragging = true;
+                currentWindow = this.closest('.window');
+                bringToFront(currentWindow);
+
+                // Get current window position
+                const rect = currentWindow.getBoundingClientRect();
+
+                // Store starting mouse position
+                startMouseX = e.clientX;
+                startMouseY = e.clientY;
+
+                // Store starting window position (top-left corner)
+                startWindowX = rect.left;
+                startWindowY = rect.top;
+
+                // Convert window to absolute positioning if it isn't already
+                if (!currentWindow.style.left || currentWindow.style.left.includes('%')) {
+                    currentWindow.style.left = startWindowX + 'px';
+                    currentWindow.style.top = startWindowY + 'px';
+                    currentWindow.style.transform = 'none';
+                }
+
+                // Add dragging class for visual feedback
+                currentWindow.style.cursor = 'grabbing';
+                titlebar.style.cursor = 'grabbing';
+
+                // Prevent text selection while dragging
+                e.preventDefault();
+            });
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging || !currentWindow) return;
+
+            // Calculate how far the mouse has moved
+            const deltaX = e.clientX - startMouseX;
+            const deltaY = e.clientY - startMouseY;
+
+            // Calculate new position based on starting position + mouse movement
+            let newX = startWindowX + deltaX;
+            let newY = startWindowY + deltaY;
+
+            // Keep window within viewport bounds
+            const rect = currentWindow.getBoundingClientRect();
+            const maxX = window.innerWidth - rect.width;
+            const maxY = window.innerHeight - rect.height;
+
+            newX = Math.max(0, Math.min(newX, maxX));
+            newY = Math.max(0, Math.min(newY, maxY));
+
+            // Update window position smoothly
+            currentWindow.style.left = newX + 'px';
+            currentWindow.style.top = newY + 'px';
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isDragging && currentWindow) {
+                currentWindow.style.cursor = '';
+                const titlebar = currentWindow.querySelector('.window-titlebar');
+                if (titlebar) titlebar.style.cursor = 'move';
+                isDragging = false;
+                currentWindow = null;
+            }
+        });
+    </script>
+
+</body>
+</html>

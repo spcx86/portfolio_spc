@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Blocks Theme - Builder Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --lego-red: #e3000f;
+            --lego-blue: #0073e6;
+            --lego-yellow: #ffc90e;
+            --lego-green: #00a651;
+            --lego-orange: #ff7900;
+            --lego-purple: #7b2e8e;
+            --base-gray: #f0f0f0;
+            --dark-gray: #4a4a4a;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--base-gray);
+            color: var(--dark-gray);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Baseplate Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle, rgba(0, 0, 0, 0.08) 2px, transparent 2px);
+            background-size: 24px 24px;
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Header Brick */
+        .header-brick {
+            background: linear-gradient(180deg, var(--lego-red) 0%, #c7000d 100%);
+            color: var(--white);
+            padding: 48px 40px;
+            text-align: center;
+            box-shadow:
+                0 8px 0 #a8000a,
+                0 12px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        /* Lego Studs on Header */
+        .header-brick::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 16px;
+            background-image:
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 6px, transparent 6px);
+            background-size: 40px 40px;
+            background-position: 20px 0;
+        }
+
+        .header-brick h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-brick .tagline {
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.95;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Brick Section Headers */
+        .brick-header {
+            display: inline-block;
+            background: linear-gradient(180deg, var(--lego-blue) 0%, #005bb5 100%);
+            color: var(--white);
+            padding: 20px 40px;
+            margin-bottom: 32px;
+            border-radius: 12px 12px 0 0;
+            box-shadow:
+                0 6px 0 #004a94,
+                0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .brick-header::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 8px;
+            background-image:
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 4px, transparent 4px);
+            background-size: 30px 30px;
+            background-position: 15px 0;
+        }
+
+        .brick-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Building Plate (Content Container) */
+        .building-plate {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 0 16px 16px 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 60px;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--dark-gray);
+            margin-bottom: 24px;
+        }
+
+        /* Stat Blocks */
+        .stat-blocks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 28px;
+            margin: 40px 0;
+        }
+
+        .stat-block {
+            background: linear-gradient(180deg, var(--lego-yellow) 0%, #e6b50d 100%);
+            color: var(--dark-gray);
+            padding: 32px 24px;
+            border-radius: 12px;
+            box-shadow:
+                0 6px 0 #c79a0b,
+                0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .stat-block:hover {
+            transform: translateY(-8px) rotate(-2deg);
+            box-shadow:
+                0 10px 0 #c79a0b,
+                0 16px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Studs on blocks */
+        .stat-block::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 12px;
+            background-image:
+                radial-gradient(circle, rgba(0, 0, 0, 0.1) 5px, transparent 5px);
+            background-size: 28px 28px;
+            background-position: 14px 0;
+        }
+
+        .stat-value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Project Bricks */
+        .project-bricks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .project-brick {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .project-brick:hover {
+            transform: translateY(-12px) rotate(-1deg);
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Different colors for each brick */
+        .project-brick:nth-child(1) .brick-top {
+            background: linear-gradient(180deg, var(--lego-red) 0%, #c7000d 100%);
+            box-shadow: 0 6px 0 #a8000a;
+        }
+
+        .project-brick:nth-child(2) .brick-top {
+            background: linear-gradient(180deg, var(--lego-green) 0%, #008a43 100%);
+            box-shadow: 0 6px 0 #007038;
+        }
+
+        .project-brick:nth-child(3) .brick-top {
+            background: linear-gradient(180deg, var(--lego-orange) 0%, #e66d00 100%);
+            box-shadow: 0 6px 0 #cc6100;
+        }
+
+        .project-brick:nth-child(4) .brick-top {
+            background: linear-gradient(180deg, var(--lego-purple) 0%, #661f77 100%);
+            box-shadow: 0 6px 0 #551965;
+        }
+
+        .brick-top {
+            padding: 20px 24px;
+            color: var(--white);
+            position: relative;
+        }
+
+        .brick-top::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            height: 10px;
+            background-image:
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 4px, transparent 4px);
+            background-size: 26px 26px;
+            background-position: 13px 0;
+        }
+
+        .brick-id {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .brick-status {
+            background: rgba(255, 255, 255, 0.25);
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .brick-content {
+            background: var(--white);
+            padding: 28px 24px;
+        }
+
+        .project-brick h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 16px;
+        }
+
+        .project-brick p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .brick-pieces {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .piece {
+            background: linear-gradient(180deg, var(--lego-blue) 0%, #005bb5 100%);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 0 #004a94;
+        }
+
+        /* Assembly Instructions (CTA) */
+        .assembly-box {
+            background: linear-gradient(180deg, var(--lego-blue) 0%, #005bb5 100%);
+            color: var(--white);
+            padding: 56px 48px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 60px 0;
+            box-shadow:
+                0 8px 0 #004a94,
+                0 12px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .assembly-box::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 16px;
+            background-image:
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 6px, transparent 6px);
+            background-size: 40px 40px;
+            background-position: 20px 0;
+        }
+
+        .assembly-box h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .assembly-box p {
+            font-size: 18px;
+            margin-bottom: 32px;
+            opacity: 0.95;
+        }
+
+        .btn {
+            background: linear-gradient(180deg, var(--lego-yellow) 0%, #e6b50d 100%);
+            color: var(--dark-gray);
+            padding: 18px 48px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow:
+                0 6px 0 #c79a0b,
+                0 10px 25px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 10px 0 #c79a0b,
+                0 16px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow:
+                0 4px 0 #c79a0b,
+                0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Building Tips */
+        .building-tips {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        .building-tips h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            color: var(--lego-red);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .building-tips ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .building-tips li {
+            padding-left: 32px;
+            position: relative;
+            color: var(--dark-gray);
+            font-weight: 600;
+        }
+
+        .building-tips li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .building-tips li:nth-child(1)::before { color: var(--lego-red); }
+        .building-tips li:nth-child(2)::before { color: var(--lego-blue); }
+        .building-tips li:nth-child(3)::before { color: var(--lego-yellow); }
+        .building-tips li:nth-child(4)::before { color: var(--lego-green); }
+        .building-tips li:nth-child(5)::before { color: var(--lego-orange); }
+        .building-tips li:nth-child(6)::before { color: var(--lego-purple); }
+
+        /* Footer Baseplate */
+        .footer-plate {
+            margin-top: 80px;
+            padding: 32px;
+            text-align: center;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-plate p {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Floating Bricks Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .floating-brick {
+            position: fixed;
+            font-size: 40px;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .fb-1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .fb-2 { top: 30%; right: 10%; animation-delay: 1s; }
+        .fb-3 { bottom: 20%; left: 8%; animation-delay: 2s; }
+        .fb-4 { bottom: 40%; right: 5%; animation-delay: 3s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px 60px;
+            }
+
+            .header-brick h1 {
+                font-size: 36px;
+            }
+
+            .project-bricks {
+                grid-template-columns: 1fr;
+            }
+
+            .assembly-box {
+                padding: 40px 24px;
+            }
+
+            .floating-brick {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Background Bricks -->
+    <div class="floating-brick fb-1">🧱</div>
+    <div class="floating-brick fb-2">🧱</div>
+    <div class="floating-brick fb-3">🧱</div>
+    <div class="floating-brick fb-4">🧱</div>
+
+    <!-- Header Brick -->
+    <div class="header-brick">
+        <h1>Your Name</h1>
+        <div class="tagline">Builder · Founder · Creator</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Introduction Section -->
+        <div class="brick-header">
+            <h2>🧱 Building Blocks</h2>
+        </div>
+        <div class="building-plate">
+            <p class="description">
+                I build products the way you build with blocks—one piece at a time,
+                carefully snapping together features, testing stability, and creating
+                something amazing from simple components.
+            </p>
+            <p class="description">
+                Every project is modular, every feature fits perfectly into place.
+                Currently assembling my own app while helping other builders create
+                their masterpieces. Let's build something awesome together.
+            </p>
+        </div>
+
+        <!-- Stats Blocks -->
+        <div class="brick-header">
+            <h2>📊 By The Numbers</h2>
+        </div>
+        <div class="building-plate">
+            <div class="stat-blocks">
+                <div class="stat-block">
+                    <div class="stat-value">5+</div>
+                    <div class="stat-label">Years Building</div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Products Assembled</div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-value">10K+</div>
+                    <div class="stat-label">Builders Helped</div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-value">$500K</div>
+                    <div class="stat-label">Value Created</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="brick-header">
+            <h2>🏗️ My Builds</h2>
+        </div>
+        <div class="building-plate">
+            <div class="project-bricks">
+                <div class="project-brick">
+                    <div class="brick-top">
+                        <div class="brick-id">BUILD-001</div>
+                        <div class="brick-status">In Progress</div>
+                    </div>
+                    <div class="brick-content">
+                        <h3>Current Assembly</h3>
+                        <p>
+                            Snapping together a collaboration platform piece by piece.
+                            500+ builders testing the structure. Every block connects
+                            perfectly.
+                        </p>
+                        <div class="brick-pieces">
+                            <span class="piece">SaaS</span>
+                            <span class="piece">Live</span>
+                            <span class="piece">Growing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-brick">
+                    <div class="brick-top">
+                        <div class="brick-id">BUILD-002</div>
+                        <div class="brick-status">Completed</div>
+                    </div>
+                    <div class="brick-content">
+                        <h3>Finished Creation</h3>
+                        <p>
+                            Built from foundation blocks to $500K masterpiece. Every piece
+                            carefully assembled. Handed over to TechCorp in 2024.
+                        </p>
+                        <div class="brick-pieces">
+                            <span class="piece">B2B</span>
+                            <span class="piece">Exit</span>
+                            <span class="piece">Acquired</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-brick">
+                    <div class="brick-top">
+                        <div class="brick-id">BUILD-003</div>
+                        <div class="brick-status">Active</div>
+                    </div>
+                    <div class="brick-content">
+                        <h3>Shared Pieces</h3>
+                        <p>
+                            Open-source building blocks for the community. Reusable
+                            components used by 10,000+ builders worldwide.
+                        </p>
+                        <div class="brick-pieces">
+                            <span class="piece">OSS</span>
+                            <span class="piece">Community</span>
+                            <span class="piece">10K+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Building Tips -->
+        <div class="building-tips">
+            <h4>🔧 My Building Toolkit</h4>
+            <ul>
+                <li>React Components</li>
+                <li>Next.js Framework</li>
+                <li>TypeScript Blocks</li>
+                <li>PostgreSQL Foundation</li>
+                <li>AWS Infrastructure</li>
+                <li>Git Version Control</li>
+            </ul>
+        </div>
+
+        <!-- Assembly Instructions CTA -->
+        <div class="assembly-box">
+            <h3>Ready to Build?</h3>
+            <p>
+                Let's snap together something amazing. Whether it's a simple feature
+                or a complex product, we'll build it block by block.
+            </p>
+            <button class="btn">Start Building</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-plate">
+            <p>© 2024 Your Building Co. · Built Brick by Brick with ❤️</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
